@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+#login-container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("https://i.etsystatic.com/35972490/r/il/adc274/4616362564/il_fullxfull.4616362564_j6vn.jpg");
+    background-size: cover;
+}
+
+#login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 25%;
+    height: 50%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
+    background: white;
+}
+
+#login-form input{
+    width: 100%;
+    height: 2.5rem;
+    border: 1px solid lightgray;
+    outline: none;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+#login-form button{
+    width: 100%;
+    height: 2.5rem;
+    border: 1px solid lightgray;
+    outline: none;
+    border-radius: 0.5rem;
+}
+
+#login-form button:hover{
+   background: black;
+   color: white;
+}
+
+#logo{
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+}
