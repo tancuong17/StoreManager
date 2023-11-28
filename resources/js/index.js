@@ -3,9 +3,15 @@ $.ajaxSetup({
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   }
 });
-function preventBack(){window.history.forward();}
+
+function preventBack(){
+  window.history.forward();
+}
+
 setTimeout("preventBack()", 0);
+
 window.onunload=function(){null};
+
  $.ajax({
       type: "get",
       url: "./loggedCheck",
@@ -41,7 +47,9 @@ new Chart(ctx, {
     }
   }
 });
+
 OpenTab((localStorage.getItem("tab")) ? localStorage.getItem("tab") : 0);
+
 function OpenTab(tab) {
     $(".icon-container").removeClass("icon-active");
     $(".icon-container").eq(tab).addClass("icon-active");
@@ -52,6 +60,9 @@ function OpenTab(tab) {
 }
 
 function getData(tab) {
+  $(".load-icon-container").attr("style", "display: flex");
+  $(".emty-icon-container").attr("style", "display: none");
+  $("#body-tab-product").attr("style", "height: calc(100vh - 9rem)");
   let url = "";
   let tabAddData = "";
   if(tab == 1){
@@ -64,10 +75,18 @@ function getData(tab) {
     url: url,
     dataType: "json",
     success: function (response) {
-      $.map(response, function (element) {
-        if(tab == 1)
-          $("#body-tab-product").prepend(AddProductElementOnTab(element));
-      });
+      if(tab == 1){
+        $(".load-icon-container").attr("style", "display: none");
+        if(response.length == 0){
+          $(".emty-icon-container").attr("style", "display: flex");
+        }
+        else{
+          $("#body-tab-product").attr("style", "height: auto");
+          $.map(response, function (element) {
+            $("#body-tab-product").prepend(AddProductElementOnTab(element));
+          });
+        }
+      }
     }
   });
 }
@@ -82,11 +101,29 @@ function AddProductElementOnTab(response) {
           <p>`+ new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(response.price) +`đ</p>
         </div>
       </div>
-      <div class="product-remove">
+      <div class="product-remove" onclick="DeleteProduct(this, `+ response.id +`)">
         <i class="fa-solid fa-trash"></i>
       </div>
     </div>
   `;
+}
+
+
+function DeleteProduct(e, id) {
+  $.ajax({
+    type: "post",
+    url: "./deleteProduct",
+    data: {id: id},
+    dataType: "json",
+    success: function (response) {
+      if(response == 1)
+        $(e).parent().remove();
+      if($(".product-container").length == 0){
+        $(".emty-icon-container").attr("style", "display: flex");
+        $("#body-tab-product").attr("style", "height: calc(100vh - 9rem)");
+      }
+    }
+  });
 }
 
 document.getElementById("image-upload-add-input").onchange = evt => {
@@ -95,33 +132,72 @@ document.getElementById("image-upload-add-input").onchange = evt => {
     document.getElementById("image-add-upload").src = URL.createObjectURL(file)
   }
 }
+
+$("#keyword_product").keyup(function(event) {
+  if (event.keyCode === 13) {
+    SearchProduct();
+  }
+});
+
+function SearchProduct() {
+  $("#body-tab-product").find(".product-container").remove();
+  $(".load-icon-container").attr("style", "display: flex");
+  $(".emty-icon-container").attr("style", "display: none");
+  $("#body-tab-product").attr("style", "height: calc(100vh - 9rem)");
+  $.ajax({
+    type: "post",
+    url: "./searchProducts",
+    data: {keyword: $("#keyword_product").val()},
+    dataType: "json",
+    success: function (response) {
+      $(".load-icon-container").attr("style", "display: none");
+      if(response.length == 0){
+        $(".emty-icon-container").attr("style", "display: flex");
+      }
+      else{
+        $("#body-tab-product").attr("style", "height: auto");
+        $.map(response, function (element) {
+          $("#body-tab-product").prepend(AddProductElementOnTab(element));
+        });
+      }
+    }
+  });
+}
+
 function OpenModalAddProduct(){
   $("#modal-add-product").attr("style", "display: grid");
 }
+
 function CloseModalAddProduct(){
   $("#modal-add-product").attr("style", "display: none");
 }
 function AddOrder() {
   $("#modal-add-product-to-order").attr("style", "display: flex");
 }
+
 function CloseModalAddProductToOrder() {
   $("#modal-add-product-to-order").attr("style", "display: none");
 }
+
 function AddInputTable() {
   $("#input-table").prepend(`<input/>`);
 }
+
 function OpenMenu() {
   $("#menu-container").attr("style", "display: flex");
 }
+
 function CloseMenu() {
   $("#menu-container").attr("style", "display: none");
 }
+
 function Resize() {
   if(window.innerWidth > 600)
     OpenMenu();
   else
     CloseMenu();
 }
+
 function AddProduct() {
   let data = new FormData();
   data.append("name", $("#name").val());
@@ -135,7 +211,8 @@ function AddProduct() {
     contentType: false,
     dataType: "json",
     success: function (response) {
-      console.log(response);
+      $("#body-tab-product").attr("style", "height: auto");
+      $(".emty-icon-container").attr("style", "display: none");
       if(response == 0){
         $("#notification-product").attr("style", "display: flex");
         $("#notification-product").find("p").text("Sản phẩm này đã tồn tại!");
@@ -148,6 +225,10 @@ function AddProduct() {
         $("#notification-product").find("img").attr("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/1024px-Flat_tick_icon.svg.png");
         setTimeout(() => {
           $("#modal-add-product").attr("style", "display: none");
+          $("#notification-product").attr("style", "display: none");
+          $("#name").val("");
+          $("#price").val("");
+          $("#image-add-upload").attr("src", "https://static.thenounproject.com/png/104062-200.png");
         }, 1500);
         $("#body-tab-product").prepend(AddProductElementOnTab(response));
       }

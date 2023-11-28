@@ -692,9 +692,46 @@
     font-size: 0.7rem;
 }
 
+.load-icon-container{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.load-icon-container img{
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.emty-icon-container{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.emty-icon-container img{
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 #body-tab-product{
+    position: relative;
     display: grid;
-    height: auto;
+    height: calc(100vh - 9rem);
     max-height: calc(100vh - 9rem);
     overflow: auto;
     padding-right: 0.5rem;

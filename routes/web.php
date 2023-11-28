@@ -32,3 +32,7 @@ Route::post('/logincheck', [UserController::class, 'loginCheck']);
 Route::post('/addProduct', [ProductController::class, 'add']);
 
 Route::get('/getProducts', [ProductController::class, 'gets']);
+
+Route::post('/searchProducts', [ProductController::class, 'search']);
+
+Route::post('/deleteProduct', [ProductController::class, 'delete']);
