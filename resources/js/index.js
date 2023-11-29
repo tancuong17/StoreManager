@@ -94,15 +94,20 @@ function getData(tab) {
 function AddProductElementOnTab(response) {
   return `
     <div class="product-container">
-      <div class="product">
+      <div class="product" onclick="OpenModalProductDetail(`+ response.id +`)">
         <img src="./storage/app/` + response.image +`" alt="product"/>
         <div>
           <p>`+ response.name +`</p>
           <p>`+ new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(response.price) +`đ</p>
         </div>
       </div>
-      <div class="product-remove" onclick="DeleteProduct(this, `+ response.id +`)">
-        <i class="fa-solid fa-trash"></i>
+      <div class="product-function">
+        <div class="product-edit">
+          <i class="fa-regular fa-pen-to-square" onclick="OpenModalUpdateProduct(`+ response.id +`)"></i>
+        </div>
+        <div class="product-remove" onclick="DeleteProduct(this, `+ response.id +`)">
+          <i class="fa-solid fa-trash"></i>
+        </div>
       </div>
     </div>
   `;
@@ -171,6 +176,47 @@ function OpenModalAddProduct(){
 function CloseModalAddProduct(){
   $("#modal-add-product").attr("style", "display: none");
 }
+
+function OpenModalUpdateProduct(id){
+  $("#modal-edit-product").attr("style", "display: grid");
+  $.ajax({
+    type: "post",
+    url: "./getProduct",
+    data: {id: id},
+    dataType: "json",
+    success: function (response) {
+      $("#image-edit-upload").attr("src", "./storage/app/" + response[0].image);
+      $("#name-edit").val(response[0].name);
+      $("#price-edit").val(response[0].price);
+    }
+  });
+}
+
+function CloseModalUpdateProduct(){
+  $("#modal-edit-product").attr("style", "display: none");
+}
+
+function OpenModalProductDetail(id){
+  $.ajax({
+    type: "post",
+    url: "./getProduct",
+    data: {id: id},
+    dataType: "json",
+    success: function (response) {
+      $("#image-detail-upload").attr("src", "./storage/app/" + response[0].image);
+      $("#name-detail").val(response[0].name);
+      $("#price-detail").val(response[0].price);
+      $("#updated_date").text("Thời gian: " + new Date(response[0].updated_at).toLocaleString());
+      $("#updater").text("Cập nhật hoặc tạo: " + response[0].creator);
+    }
+  });
+  $("#modal-detail-product").attr("style", "display: grid");
+}
+
+function CloseModalProductDetail(){
+  $("#modal-detail-product").attr("style", "display: none");
+}
+
 function AddOrder() {
   $("#modal-add-product-to-order").attr("style", "display: flex");
 }

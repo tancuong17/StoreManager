@@ -14,11 +14,11 @@
           <img id="image-add-upload" src="https://static.thenounproject.com/png/104062-200.png" alt="product"/>
         </label>
         <input id="image-upload-add-input" type="file" accept="image/*"/>
-        <input id="name" class="add-product-input" placeholder="Tên sản phẩm..."/>
-        <input id="price" class="add-product-input" placeholder="Giá sản phẩm..."/>
+        <input id="name" class="product-input" placeholder="Tên sản phẩm..."/>
+        <input id="price" class="product-input" placeholder="Giá sản phẩm..."/>
       </div>
       <div class="footer-modal">
-        <button onclick="AddProduct()">Thêm sản phẩm</button>
+        <button onclick="AddProduct()">Thêm</button>
       </div>
     </div>
 </section>

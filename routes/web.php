@@ -33,6 +33,8 @@ Route::post('/addProduct', [ProductController::class, 'add']);
 
 Route::get('/getProducts', [ProductController::class, 'gets']);
 
+Route::post('/getProduct', [ProductController::class, 'get']);
+
 Route::post('/searchProducts', [ProductController::class, 'search']);
 
 Route::post('/deleteProduct', [ProductController::class, 'delete']);

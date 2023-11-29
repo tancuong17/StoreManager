@@ -23,6 +23,8 @@
       @include('bills_tab')
     </div>
   </section>
+  @include('edit_product_modal')
+  @include('detail_product_modal')
   @include('add_product_modal')
   @include('add_order_modal')
 </body>

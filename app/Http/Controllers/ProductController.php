@@ -23,6 +23,7 @@ class ProductController extends Controller
             $product->name = $name;
             $product->image = $image;
             $product->creator = Auth::user()->id;
+            $product->updater = Auth::user()->id;
             $product->save();
             $priceController = new PriceController();
             $priceController->add(array("product" => $product->id, "price" => $request->price, "creator" => Auth::user()->id));
@@ -33,6 +34,12 @@ class ProductController extends Controller
     {
         $products = Product::select('products.id', 'products.name', 'products.image', 'prices.price')->join('prices', 'prices.product', '=', 'products.id')->whereNull('prices.updater')->get();
         echo json_encode($products);
+    }
+
+    public function get(Request $request)
+    {
+        $product = Product::select('products.id', 'products.name', 'products.image', 'products.updated_at', 'prices.price', 'users.name as creator')->join('prices', 'prices.product', '=', 'products.id')->join('users', 'products.updater', '=', 'users.id')->where('products.id', "=", (String)$request->id)->whereNull('prices.updater')->get();
+        echo json_encode($product);
     }
 
     public function search(Request $request)
