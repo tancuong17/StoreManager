@@ -18,7 +18,7 @@
         <input id="price-edit" class="product-input" placeholder="Giá sản phẩm..."/>
       </div>
       <div class="footer-modal">
-        <button onclick="AddProduct()">Cập nhật</button>
+        <button id="btn-update-product">Cập nhật</button>
       </div>
     </div>
 </section>

@@ -30,6 +30,29 @@ class ProductController extends Controller
             echo json_encode(array("id" => $product->id, "name" => $product->name, "image" => $product->image, "price" => $request->price));
         }
     }
+    public function update(Request $request)
+    {
+        $product = Product::find($request->id);
+        $name = $request->name;
+        if(Product::where('name', $name)->where('id', '<>', (String)$request->id)->get()->count() > 0){
+            echo json_encode(0);
+        }
+        else{
+            if($request->file('photo') != ""){
+                $image = $request->file('photo')->store('images');
+                Storage::delete($product->image);
+                $product->image = $image;
+            }
+            $product->name = $name;
+            $product->updater = Auth::user()->id;
+            $product->save();
+            if($request->price != ""){
+                $priceController = new PriceController();
+                $priceController->update(array("product" => $request->id, "price" => $request->price, "creator" => Auth::user()->id));
+            }
+            echo json_encode(array("id" => $product->id, "name" => $product->name, "image" => $product->image, "price" => $request->price));
+        }
+    }
     public function gets()
     {
         $products = Product::select('products.id', 'products.name', 'products.image', 'prices.price')->join('prices', 'prices.product', '=', 'products.id')->whereNull('prices.updater')->get();

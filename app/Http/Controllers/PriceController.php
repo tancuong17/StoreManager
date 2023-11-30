@@ -15,4 +15,9 @@ class PriceController extends Controller
         $price->creator = $data["creator"];
         $price->save();
     }
+    public function update($data)
+    {
+        Price::where('product', (String)$data["product"])->whereNull('updater')->update(["updater" => $data["creator"]]);
+        $this->add($data);
+    }
 }

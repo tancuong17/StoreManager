@@ -93,17 +93,17 @@ function getData(tab) {
 
 function AddProductElementOnTab(response) {
   return `
-    <div class="product-container">
+    <div class="product-container" id="product-`+ response.id +`">
       <div class="product" onclick="OpenModalProductDetail(`+ response.id +`)">
         <img src="./storage/app/` + response.image +`" alt="product"/>
         <div>
-          <p>`+ response.name +`</p>
-          <p>`+ new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(response.price) +`đ</p>
+          <p id="name-product">`+ response.name +`</p>
+          <p id="price-product">`+ new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(response.price) +`đ</p>
         </div>
       </div>
       <div class="product-function">
-        <div class="product-edit">
-          <i class="fa-regular fa-pen-to-square" onclick="OpenModalUpdateProduct(`+ response.id +`)"></i>
+        <div class="product-edit" onclick="OpenModalUpdateProduct(`+ response.id +`)">
+          <i class="fa-regular fa-pen-to-square"></i>
         </div>
         <div class="product-remove" onclick="DeleteProduct(this, `+ response.id +`)">
           <i class="fa-solid fa-trash"></i>
@@ -135,6 +135,13 @@ document.getElementById("image-upload-add-input").onchange = evt => {
   const [file] = document.getElementById("image-upload-add-input").files;
   if (file) {
     document.getElementById("image-add-upload").src = URL.createObjectURL(file)
+  }
+}
+
+document.getElementById("image-upload-edit-input").onchange = evt => {
+  const [file] = document.getElementById("image-upload-edit-input").files;
+  if (file) {
+    document.getElementById("image-edit-upload").src = URL.createObjectURL(file)
   }
 }
 
@@ -188,6 +195,8 @@ function OpenModalUpdateProduct(id){
       $("#image-edit-upload").attr("src", "./storage/app/" + response[0].image);
       $("#name-edit").val(response[0].name);
       $("#price-edit").val(response[0].price);
+      $("#price-edit").attr("data-price", response[0].price);
+      $("#btn-update-product").attr("onclick", "UpdateProduct("+ id +")");
     }
   });
 }
@@ -278,6 +287,31 @@ function AddProduct() {
         }, 1500);
         $("#body-tab-product").prepend(AddProductElementOnTab(response));
       }
+    }
+  });
+}
+
+function UpdateProduct(id) {
+  let data = new FormData();
+  data.append("id", id);
+  data.append("name", $("#name-edit").val());
+  data.append("photo", $("#image-upload-edit-input")[0].files[0]);
+  if($("#price-edit").attr("data-price") != $("#price-edit").val())
+    data.append("price", $("#price-edit").val());
+  else
+    data.append("price", "");
+  $.ajax({
+    type: "post",
+    url: "./updateProduct",
+    data: data,
+    processData: false,
+    contentType: false,
+    dataType: "json",
+    success: function (response) {
+      $("#product-" + response.id).find("img").attr("src", "./storage/app/" + response.image);
+      $("#product-" + response.id).find("#name-product").text($("#name-edit").val());
+      $("#product-" + response.id).find("#price-product").text(new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format($("#price-edit").val()) + "đ");
+      CloseModalUpdateProduct();
     }
   });
 }
