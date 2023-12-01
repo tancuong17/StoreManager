@@ -115,17 +115,29 @@ function AddProductElementOnTab(response) {
 
 
 function DeleteProduct(e, id) {
+  let image = $(e).parents(".product-container").find("img").attr("src");
+  $(e).parents(".product-container").find("img").attr("src", "https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif");
   $.ajax({
     type: "post",
     url: "./deleteProduct",
     data: {id: id},
     dataType: "json",
     success: function (response) {
-      if(response == 1)
-        $(e).parent().remove();
-      if($(".product-container").length == 0){
-        $(".emty-icon-container").attr("style", "display: flex");
-        $("#body-tab-product").attr("style", "height: calc(100vh - 9rem)");
+      if(response == 1){
+        $(e).parents(".product-container").find("img").attr("src", "https://i.pinimg.com/originals/e8/06/52/e80652af2c77e3a73858e16b2ffe5f9a.gif");
+        setTimeout(() => {
+          $(e).parents(".product-container").remove();
+          if($(".product-container").length == 0){
+            $(".emty-icon-container").attr("style", "display: flex");
+            $("#body-tab-product").attr("style", "height: calc(100vh - 9rem)");
+          }
+        }, 3000);
+      }
+      else{
+        $(e).parents(".product-container").find("img").attr("src", "https://i.pinimg.com/originals/ef/8b/bd/ef8bbd4554dedcc2fd1fd15ab0ebd7a1.gif");
+        setTimeout(() => {
+          $(e).parents(".product-container").find("img").attr("src", image);
+        }, 3000);
       }
     }
   });
@@ -185,6 +197,9 @@ function CloseModalAddProduct(){
 }
 
 function OpenModalUpdateProduct(id){
+  $("#load-edit-product-modal").attr("style", "display: flex");
+  $(".body-modal").attr("style", "display: none");
+  $(".footer-modal").attr("style", "display: none");
   $("#modal-edit-product").attr("style", "display: grid");
   $.ajax({
     type: "post",
@@ -192,6 +207,9 @@ function OpenModalUpdateProduct(id){
     data: {id: id},
     dataType: "json",
     success: function (response) {
+      $(".body-modal").attr("style", "display: flex");
+      $(".footer-modal").attr("style", "display: flex");
+      $("#load-edit-product-modal").attr("style", "display: none");
       $("#image-edit-upload").attr("src", "./storage/app/" + response[0].image);
       $("#name-edit").val(response[0].name);
       $("#price-edit").val(response[0].price);
@@ -206,12 +224,18 @@ function CloseModalUpdateProduct(){
 }
 
 function OpenModalProductDetail(id){
+  $("#load-detail-product-modal").attr("style", "display: flex");
+  $(".body-modal").attr("style", "display: none");
+  $(".footer-modal").attr("style", "display: none");
   $.ajax({
     type: "post",
     url: "./getProduct",
     data: {id: id},
     dataType: "json",
     success: function (response) {
+      $(".body-modal").attr("style", "display: flex");
+      $(".footer-modal").attr("style", "display: flex");
+      $("#load-detail-product-modal").attr("style", "display: none");
       $("#image-detail-upload").attr("src", "./storage/app/" + response[0].image);
       $("#name-detail").val(response[0].name);
       $("#price-detail").val(response[0].price);
@@ -258,6 +282,10 @@ function AddProduct() {
   data.append("name", $("#name").val());
   data.append("price", $("#price").val());
   data.append("photo", $("#image-upload-add-input")[0].files[0]);
+  $("#load-add-product-modal").find("img").attr("src", "https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif");
+  $(".body-modal").attr("style", "display: none");
+  $(".footer-modal").attr("style", "display: none");
+  $("#load-add-product-modal").attr("style", "display: flex");
   $.ajax({
     type: "post",
     url: "./addProduct",
@@ -269,29 +297,40 @@ function AddProduct() {
       $("#body-tab-product").attr("style", "height: auto");
       $(".emty-icon-container").attr("style", "display: none");
       if(response == 0){
-        $("#notification-product").attr("style", "display: flex");
-        $("#notification-product").find("p").text("Sản phẩm này đã tồn tại!");
-        $("#notification-product").find("img").attr("src", "https://cdn-icons-png.flaticon.com/128/2997/2997911.png");
-        $("#notification-product").find("img").attr("onclick", "CloseNotificationProduct()");
+        $("#load-add-product-modal").find("img").attr("src", "https://i.redd.it/he0qua80qrn91.gif");
+        setTimeout(() => {
+          $("#load-add-product-modal").attr("style", "display: none");
+          $("#notification-product").attr("style", "display: flex");
+          $(".body-modal").attr("style", "display: flex");
+          $(".footer-modal").attr("style", "display: flex");
+          $("#notification-product").find("p").text("Sản phẩm này đã tồn tại!");
+          $("#notification-product").find("img").attr("src", "https://cdn-icons-png.flaticon.com/128/2997/2997911.png");
+          $("#notification-product").find("img").attr("onclick", "CloseNotificationProduct()");
+        }, 3000); 
       }
       else{
-        $("#notification-product").attr("style", "display: flex");
-        $("#notification-product").find("p").text("Thêm sản phẩm thành công!");
-        $("#notification-product").find("img").attr("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/1024px-Flat_tick_icon.svg.png");
+        $("#load-add-product-modal").attr("style", "display: none");
+        $("#success-add-product-modal").attr("style", "display: flex");
         setTimeout(() => {
           $("#modal-add-product").attr("style", "display: none");
-          $("#notification-product").attr("style", "display: none");
+          $(".body-modal").attr("style", "display: flex");
+          $(".footer-modal").attr("style", "display: flex");
+          $("#success-add-product-modal").attr("style", "display: none");
           $("#name").val("");
           $("#price").val("");
           $("#image-add-upload").attr("src", "https://static.thenounproject.com/png/104062-200.png");
-        }, 1500);
-        $("#body-tab-product").prepend(AddProductElementOnTab(response));
+          $("#body-tab-product").prepend(AddProductElementOnTab(response));
+        }, 3000);
       }
     }
   });
 }
 
 function UpdateProduct(id) {
+  $("#load-edit-product-modal").find("img").attr("src", "https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif");
+  $(".body-modal").attr("style", "display: none");
+  $(".footer-modal").attr("style", "display: none");
+  $("#load-edit-product-modal").attr("style", "display: flex");
   let data = new FormData();
   data.append("id", id);
   data.append("name", $("#name-edit").val());
@@ -308,14 +347,45 @@ function UpdateProduct(id) {
     contentType: false,
     dataType: "json",
     success: function (response) {
-      $("#product-" + response.id).find("img").attr("src", "./storage/app/" + response.image);
-      $("#product-" + response.id).find("#name-product").text($("#name-edit").val());
-      $("#product-" + response.id).find("#price-product").text(new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format($("#price-edit").val()) + "đ");
-      CloseModalUpdateProduct();
+      $("#body-tab-product").attr("style", "height: auto");
+      $(".emty-icon-container").attr("style", "display: none");
+      if(response == 0){
+        $("#load-edit-product-modal").find("img").attr("src", "https://i.redd.it/he0qua80qrn91.gif");
+        setTimeout(() => {
+          $("#load-edit-product-modal").attr("style", "display: none");
+          $("#notification-edit-product").attr("style", "display: flex");
+          $(".body-modal").attr("style", "display: flex");
+          $(".footer-modal").attr("style", "display: flex");
+          $("#notification-edit-product").find("p").text("Tên sản phẩm này đã tồn tại!");
+          $("#notification-edit-product").find("img").attr("src", "https://cdn-icons-png.flaticon.com/128/2997/2997911.png");
+          $("#notification-edit-product").find("img").attr("onclick", "CloseNotificationEditProduct()");
+        }, 3000);
+      }
+      else{
+        $("#load-edit-product-modal").attr("style", "display: none");
+        $("#success-edit-product-modal").attr("style", "display: flex");
+        setTimeout(() => {
+          $("#modal-edit-product").attr("style", "display: none");
+          $(".body-modal").attr("style", "display: flex");
+          $(".footer-modal").attr("style", "display: flex");
+          $("#success-edit-product-modal").attr("style", "display: none");
+          $("#image-edit-upload").attr("src", "https://static.thenounproject.com/png/104062-200.png");
+          CloseModalUpdateProduct();
+          $("#product-" + response.id).find("img").attr("src", "./storage/app/" + response.image);
+          $("#product-" + response.id).find("#name-product").text($("#name-edit").val());
+          $("#product-" + response.id).find("#price-product").text(new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format($("#price-edit").val()) + "đ");
+          $("#name-edit").val("");
+          $("#price-edit").val("");
+        }, 3000);
+      }
     }
   });
 }
 
 function CloseNotificationProduct() {
   $("#notification-product").attr("style", "display: none");
+}
+
+function CloseNotificationEditProduct() {
+  $("#notification-edit-product").attr("style", "display: none");
 }

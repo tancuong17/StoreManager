@@ -1,6 +1,9 @@
 <section id="modal-detail-product">
     <div class="background-modal" onclick="CloseModalProductDetail()"></div>
     <div id="form-detail-product">
+      <div class="load-product-modal" id="load-detail-product-modal">
+        <img src="https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif" alt="product"/>
+      </div>
       <div class="header-modal">
         <p>Chi tiết sản phẩm</p>
         <img onclick="CloseModalProductDetail()" class="icon" src="https://cdn-icons-png.flaticon.com/128/2997/2997911.png" alt="icon"/>
