@@ -17,6 +17,7 @@ class CreateOrderFormsTable extends Migration
             $table->id();
             $table->String("code")->nullable(false);
             $table->String("note")->nullable(false);
+            $table->String("table_number")->nullable(false);
             $table->String("status");
             $table->bigInteger("creator")->nullable(false)->unsigned();
             $table->foreign('creator')->references('id')->on('users'); 

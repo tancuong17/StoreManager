@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\OrderFormController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,3 +42,7 @@ Route::post('/getProduct', [ProductController::class, 'get']);
 Route::post('/searchProducts', [ProductController::class, 'search']);
 
 Route::post('/deleteProduct', [ProductController::class, 'delete']);
+
+Route::post('/addOrder', [OrderFormController::class, 'add']);
+
+Route::get('/getOrders', [OrderFormController::class, 'gets']);

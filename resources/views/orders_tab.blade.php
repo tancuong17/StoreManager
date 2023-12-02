@@ -6,20 +6,18 @@
           <input placeholder="Bạn muốn tìm..." class="search-input"/>
           <img class="icon" src="https://cdn-icons-png.flaticon.com/128/2330/2330104.png" alt="icon">
         </div>
-        <button class="btn" onclick="AddOrder()">
+        <button class="btn" onclick="OpenAddOrderTab()">
           <p>Thêm mới</p>
           <i class="fa-solid fa-plus"></i>
         </button>
       </div>
     </div>
     <div class="body-tab" id="body-tab-order">
-      <div class="order">
-        <p class="table-number">#05</p>
-        <p class="order-text">Ngày tạo: 20:10:00 23/11/2023</p>
-        <p class="order-text">Người tạo: Nguyễn Hoàng Lan Phương</p>
-        <p class="order-text">Ghi chú:</p>
-        <textarea class="order-note"></textarea>
-        <button class="btn">Xóa</button>
+      <div class="load-icon-container">
+        <img src="https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif" alt="icon">
+      </div>
+      <div class="emty-icon-container">
+        <img src="https://assets-v2.lottiefiles.com/a/a4c7388c-1150-11ee-a0fa-4b9598be54ec/oceXQL7dcr.gif" alt="icon">
       </div>
     </div>
 </div>
