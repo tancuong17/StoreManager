@@ -1,7 +1,45 @@
-function OpenAddOrderTab() {
+
+function OpenOrderTab(id) {
     $("#product-to-order-footer-modal").find(".product-order").remove();
     $("#modal-add-product-to-order").attr("style", "display: flex");
     $("#load-product-in-order-modal").attr("style", "display: flex");
+    if(id != null){
+        $("#product-in-order-modal .product-order").remove();
+        $("#add-submit-btn").text("Thanh toán");
+        $("#emty-icon-order-container").attr("style", "display: none");
+        $.ajax({
+            type: "post",
+            url: "./getOrder",
+            data: {id: id},
+            dataType: "json",
+            success: function (response) {
+                $("#order-note-add").text(response[0].note);
+                $.map(response[0].table_number.split(","), function (element) {
+                    $("#input-table input").remove();
+                    $("#input-table").prepend(`
+                        <input onchange="WriteTableNumber(this)" value="`+ element +`"/>
+                    `);
+                });
+                $.map(response, function (element) {
+                    $("#product-in-order-modal").prepend(`
+                        <div class="product-order" id="product-order-`+ element.id_product +`">
+                            <div class="info-container">
+                                <img class="product-image" src="./storage/app/` + element.image + `" alt="product"/>
+                                <div>
+                                    <p>`+ element.name + `</p>
+                                    <p>`+ new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(element.price) + `đ</p>
+                                </div>
+                            </div>
+                            <div class="quantity-product-order-container">
+                                <input value="`+ element.quantity + `"/>
+                                <img class="icon" onclick="RemoveProductToOrder(this)" src="https://cdn-icons-png.flaticon.com/128/11890/11890341.png" alt="icon">
+                            </div>
+                        </div>
+                    `);
+                });
+            }
+        });
+    }
     $.ajax({
         type: "get",
         url: "./getProducts",
@@ -50,38 +88,49 @@ function AddProductToOrder(e, id) {
                 </div>
                 <div class="quantity-product-order-container">
                     <input value="1"/>
-                    <img class="icon" onclick="RemoveProductToOrder(this, `+ id + `)" src="https://cdn-icons-png.flaticon.com/128/11890/11890341.png" alt="icon">
+                    <img class="icon" onclick="RemoveProductToOrder(this)" src="https://cdn-icons-png.flaticon.com/128/11890/11890341.png" alt="icon">
                 </div>
             </div>
         `);
     }
 }
 
-function RemoveProductToOrder(e, id) {
+function RemoveProductToOrder(e) {
     $(e).parents(".product-order").remove();
     if($("#product-in-order-modal .product-order").length == 0)
         $("#emty-icon-order-container").attr("style", "display: flex");
 }
 
 function WriteTableNumber(e) {
+    let tableNumbers = "";
     let count = 0;
+    tableNumbers = tableNumbers.replaceAll("#", "");
+    $('.table-number').each(function(i, obj) {
+        tableNumbers += $(obj).text().replaceAll(",", "");
+    });
     $('#input-table input').each(function(i, obj) {
-        if($(e).val() == $(obj).val()){
+        if(Number($(e).val()) == Number($(obj).val())){
             count += 1;
         }
     });
-    if(count == 2)
+    if(count == 2 || tableNumbers.split("#").includes(String($(e).val()).padStart(2, '0')))
         $(e).val("");
 }
 
 function AddOrderElementOnTab(response) {
+    let tableNumber = response.table_number.split(",");
+    tableNumber.forEach((element, index) => {
+        tableNumber[index] = "#" + String(element).padStart(2, '0');
+    });
     return `
         <div class="order">
-            <p class="table-number">#`+ String(response.table_number).padStart(2, '0') +`</p>
-            <p class="order-text">Ngày tạo: `+ new Date(response.created_at).toLocaleString() +`</p>
-            <p class="order-text">Người tạo: `+ response.creator +`</p>
-            <p class="order-text">Ghi chú:</p>
-            <textarea readonly class="order-note">`+ response.note +`</textarea>
+            <div onclick="OpenOrderTab(`+ response.id +`)">
+                <p class="table-number">`+ tableNumber.toString() +`</p>
+                <p class="order-text">Ngày tạo: `+ new Date(response.created_at).toLocaleString() +`</p>
+                <p class="order-text">Người tạo: `+ response.creator +`</p>
+                <p class="order-text">Ghi chú:</p>
+                <textarea readonly class="order-note">`+ response.note +`</textarea>
+            </div>
             <button class="btn">Xóa</button>
         </div>
     `;
@@ -97,6 +146,7 @@ function AddOrder() {
         if($(obj).val() != "")
             dataTable.push($(obj).val());
     });
+    $("#body-tab-order .emty-icon-container").attr("style", "display: none");
     $("#load-add-order-modal").attr("style", "display: flex");
     $(".body-modal-add-product-to-order").attr("style", "display: none");
     $.ajax({
@@ -129,5 +179,25 @@ function AddOrder() {
             }
         }
     });
+}
+
+function SearchProductAddOrder(e) {
+    let countProductSearchOrder = true;
+    $('#product-to-order-footer-modal .product-order').each(function(i, obj) {
+        if($(obj).find(".name-product-order").text().toLowerCase().search($(e).val().toLowerCase()) != -1){
+            $(obj).attr("style", "display: flex");
+            countProductSearchOrder = false;
+        }
+        else
+            $(obj).attr("style", "display: none");
+    });
+    if(countProductSearchOrder){
+        $("#load-product-in-order-modal").find("img").attr("src", "https://assets-v2.lottiefiles.com/a/a4c7388c-1150-11ee-a0fa-4b9598be54ec/oceXQL7dcr.gif");
+        $("#load-product-in-order-modal").attr("style", "display: flex");
+    }
+    else{
+        $("#load-product-in-order-modal").attr("style", "display: none");
+        $("#load-product-in-order-modal").find("img").attr("src", "https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif");
+    }
 }
 

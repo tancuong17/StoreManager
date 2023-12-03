@@ -46,3 +46,5 @@ Route::post('/deleteProduct', [ProductController::class, 'delete']);
 Route::post('/addOrder', [OrderFormController::class, 'add']);
 
 Route::get('/getOrders', [OrderFormController::class, 'gets']);
+
+Route::post('/getOrder', [OrderFormController::class, 'get']);

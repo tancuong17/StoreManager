@@ -10,7 +10,7 @@
     </div>
     <div class="body-tab" id="body-tab-bill">
       <div class="bill">
-        <p class="table-number">#HD0000001</p>
+        <p class="bill-number">#HD0000001</p>
         <p class="order-text">Ngày tạo: 20:10:00 23/11/2023</p>
         <p class="order-text">Người tạo: Nguyễn Hoàng Lan Phương</p>
         <p class="order-text">Ghi chú:</p>

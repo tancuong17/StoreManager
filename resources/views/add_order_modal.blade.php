@@ -12,7 +12,7 @@
         <div id="list-add-product-to-order">
           <div style="padding-right: 0.5rem;">
           <div class="search-container" id="search-container-product-to-order">
-            <input placeholder="Tên sản phẩm..." class="search-input"/>
+            <input placeholder="Tên sản phẩm..." onkeyup="SearchProductAddOrder(this)" class="search-input"/>
             <img class="icon" src="https://cdn-icons-png.flaticon.com/128/2330/2330104.png" alt="icon">
           </div>
         </div>

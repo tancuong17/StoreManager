@@ -38,4 +38,13 @@ class OrderFormController extends Controller
           echo json_encode(2);
       }
     }
+    public function get(Request $request)
+    {
+      try {
+        $order = OrderForm::select('order_forms.table_number', 'order_forms.note', 'products.name', 'products.id as id_product', 'products.image', 'prices.price', 'detail_order_forms.quantity', 'detail_order_forms.id')->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.id", $request->id)->where("order_forms.status", 0)->whereNull('prices.updater')->get();
+        echo json_encode($order);
+      } catch (\Throwable $th) {
+          echo json_encode(2);
+      }
+    }
 }

@@ -6,7 +6,7 @@
           <input placeholder="Bạn muốn tìm..." class="search-input"/>
           <img class="icon" src="https://cdn-icons-png.flaticon.com/128/2330/2330104.png" alt="icon">
         </div>
-        <button class="btn" onclick="OpenAddOrderTab()">
+        <button class="btn" onclick="OpenOrderTab(null)">
           <p>Thêm mới</p>
           <i class="fa-solid fa-plus"></i>
         </button>

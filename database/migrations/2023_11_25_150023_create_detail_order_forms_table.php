@@ -14,6 +14,7 @@ class CreateDetailOrderFormsTable extends Migration
     public function up()
     {
         Schema::create('detail_order_forms', function (Blueprint $table) {
+            $table->id();
             $table->bigInteger("order_form")->unsigned();
             $table->foreign('order_form')->references('id')->on('order_forms'); 
             $table->bigInteger("product")->unsigned();
