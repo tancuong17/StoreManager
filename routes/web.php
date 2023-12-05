@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DetailOrderFormController;
 use App\Http\Controllers\OrderFormController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -45,6 +46,10 @@ Route::post('/deleteProduct', [ProductController::class, 'delete']);
 
 Route::post('/addOrder', [OrderFormController::class, 'add']);
 
+Route::post('/updateOrder', [OrderFormController::class, 'update']);
+
 Route::get('/getOrders', [OrderFormController::class, 'gets']);
 
 Route::post('/getOrder', [OrderFormController::class, 'get']);
+
+Route::post('/removeDetailOrder', [DetailOrderFormController::class, 'remove']);

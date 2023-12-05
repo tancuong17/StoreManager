@@ -629,6 +629,7 @@
     width: 3rem;
     height: 3rem;
     object-fit: cover;
+    border-radius: 0.5rem;
 }
 
 .quantity-product-order-container{
@@ -920,8 +921,8 @@
 }
 
 #emty-icon-order-container img{
-    width: 10rem;
-    height: 10rem;
+    width: 7rem;
+    height: 7rem;
     border-radius: 50%;
     object-fit: cover;
 }

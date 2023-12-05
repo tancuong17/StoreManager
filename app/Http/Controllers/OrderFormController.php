@@ -19,12 +19,30 @@ class OrderFormController extends Controller
             $order->table_number = implode(",", $request->tables);
             $order->note = ($request->note != "") ? $request->note : "Không";
             $order->creator = Auth::user()->id;
+            $order->updater = Auth::user()->id;
             $order->save();
             foreach ($request->products as $key => $value) {
                 $detailOrder = new DetailOrderFormController();
                 $detailOrder->add(array("orderForm" => (int)$order->id, "product" => (int)$value["id"], "quantity" => (int)$value["quantity"]));
             }
-            echo json_encode(array("id" => $order->id, "table_number" => implode(",", $request->tables), "note" => $order->note, "creator" => Auth::user()->name, "created_at" => $order->created_at));
+            echo json_encode(array("id" => $order->id, "table_number" => implode(",", $request->tables), "note" => $order->note, "updater" => Auth::user()->name, "updated_at" => $order->created_at));
+          } catch (\Exception $e) {
+            echo json_encode(0);
+          }
+    }
+    public function update(Request $request)
+    {
+        try {
+            $order = OrderForm::find($request->id);
+            $order->table_number = implode(",", $request->tables);
+            $order->note = ($request->note != "") ? $request->note : "Không";
+            $order->updater = Auth::user()->id;
+            $order->save();
+            foreach ($request->products as $key => $value) {
+              $detailOrder = new DetailOrderFormController();
+              $detailOrder->update(array("orderForm" => (int)$order->id, "product" => (int)$value["id"], "quantity" => (int)$value["quantity"]));
+            }
+            echo json_encode(array("id" => $order->id, "table_number" => implode(",", $request->tables), "note" => $order->note, "updater" => Auth::user()->name, "updated_at" => $order->updated_at));
           } catch (\Exception $e) {
             echo json_encode(0);
           }
@@ -32,7 +50,7 @@ class OrderFormController extends Controller
     public function gets()
     {
       try {
-        $orders = OrderForm::select('order_forms.id', 'order_forms.table_number', 'order_forms.note', 'order_forms.created_at', 'users.name as creator')->join('users', 'order_forms.creator', '=', 'users.id')->where("status", 0)->get();
+        $orders = OrderForm::select('order_forms.id', 'order_forms.table_number', 'order_forms.note', 'order_forms.updated_at', 'users.name as updater')->join('users', 'order_forms.updater', '=', 'users.id')->where("status", 0)->get();
         echo json_encode($orders);
       } catch (\Throwable $th) {
           echo json_encode(2);
