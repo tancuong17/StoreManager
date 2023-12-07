@@ -883,6 +883,7 @@
 }
 
 .order{
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -891,6 +892,23 @@
     word-wrap: break-word;
     padding: 0.5rem;
     border: 1px solid lightgray;
+    border-radius: 0.5rem;
+}
+
+.order i{
+    padding: 0.5rem;
+    border: 1px solid black;
+    background: black;
+    color: white;
+    border-radius: 0 0.5rem 0 0.5rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.order .load-icon-container{
+    display: none;
+    background: white;
     border-radius: 0.5rem;
 }
 

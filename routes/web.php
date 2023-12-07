@@ -52,4 +52,8 @@ Route::get('/getOrders', [OrderFormController::class, 'gets']);
 
 Route::post('/getOrder', [OrderFormController::class, 'get']);
 
+Route::post('/searchOrder', [OrderFormController::class, 'search']);
+
+Route::post('/removeOrder', [OrderFormController::class, 'delete']);
+
 Route::post('/removeDetailOrder', [DetailOrderFormController::class, 'remove']);

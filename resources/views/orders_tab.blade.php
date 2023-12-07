@@ -3,8 +3,8 @@
       <p>Đơn hàng</p>
       <div class="header-div">
         <div class="search-container">
-          <input placeholder="Bạn muốn tìm..." class="search-input"/>
-          <img class="icon" src="https://cdn-icons-png.flaticon.com/128/2330/2330104.png" alt="icon">
+          <input placeholder="Bạn muốn tìm..." class="search-input" id="keyword"/>
+          <img onclick="SearchOrder()" class="icon" src="https://cdn-icons-png.flaticon.com/128/2330/2330104.png" alt="icon">
         </div>
         <button class="btn" onclick="OpenOrderTab(null)">
           <p>Thêm mới</p>

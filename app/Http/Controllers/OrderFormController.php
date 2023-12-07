@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrderForm;
-use App\Models\User;
+use App\Models\DetailOrderForm;
 use App\Http\Controllers\DetailOrderFormController;
 
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +16,7 @@ class OrderFormController extends Controller
         try {
             $order = new OrderForm();
             $order->code = time();
-            $order->table_number = implode(",", $request->tables);
+            $order->table_number = ($request->tables != "") ? implode(",", $request->tables) : "TA".OrderForm::where("status", 0)->count();
             $order->note = ($request->note != "") ? $request->note : "Không";
             $order->creator = Auth::user()->id;
             $order->updater = Auth::user()->id;
@@ -25,7 +25,7 @@ class OrderFormController extends Controller
                 $detailOrder = new DetailOrderFormController();
                 $detailOrder->add(array("orderForm" => (int)$order->id, "product" => (int)$value["id"], "quantity" => (int)$value["quantity"]));
             }
-            echo json_encode(array("id" => $order->id, "table_number" => implode(",", $request->tables), "note" => $order->note, "updater" => Auth::user()->name, "updated_at" => $order->created_at));
+            echo json_encode(array("id" => $order->id, "table_number" => $order->table_number, "note" => $order->note, "updater" => Auth::user()->name, "updated_at" => $order->created_at));
           } catch (\Exception $e) {
             echo json_encode(0);
           }
@@ -34,7 +34,7 @@ class OrderFormController extends Controller
     {
         try {
             $order = OrderForm::find($request->id);
-            $order->table_number = implode(",", $request->tables);
+            $order->table_number = ($request->tables != "") ? implode(",", $request->tables) : "TA";
             $order->note = ($request->note != "") ? $request->note : "Không";
             $order->updater = Auth::user()->id;
             $order->save();
@@ -42,7 +42,7 @@ class OrderFormController extends Controller
               $detailOrder = new DetailOrderFormController();
               $detailOrder->update(array("orderForm" => (int)$order->id, "product" => (int)$value["id"], "quantity" => (int)$value["quantity"]));
             }
-            echo json_encode(array("id" => $order->id, "table_number" => implode(",", $request->tables), "note" => $order->note, "updater" => Auth::user()->name, "updated_at" => $order->updated_at));
+            echo json_encode(array("id" => $order->id, "table_number" => $order->table_number, "note" => $order->note, "updater" => Auth::user()->name, "updated_at" => $order->updated_at));
           } catch (\Exception $e) {
             echo json_encode(0);
           }
@@ -56,6 +56,15 @@ class OrderFormController extends Controller
           echo json_encode(2);
       }
     }
+    public function search(Request $request)
+    {
+      try {
+        $orders = OrderForm::select('order_forms.id', 'order_forms.table_number', 'order_forms.note', 'order_forms.updated_at', 'users.name as updater')->join('users', 'order_forms.updater', '=', 'users.id')->where("status", 0)->where("table_number", "like", "%$request->keyword%")->get();
+        echo json_encode($orders);
+      } catch (\Throwable $th) {
+          echo json_encode(2);
+      }
+    }
     public function get(Request $request)
     {
       try {
@@ -63,6 +72,16 @@ class OrderFormController extends Controller
         echo json_encode($order);
       } catch (\Throwable $th) {
           echo json_encode(2);
+      }
+    }
+    public function delete(Request $request)
+    {
+      try {
+        DetailOrderForm::where("order_form", $request->id)->firstOrFail()->delete();
+        OrderForm::where("id", $request->id)->firstOrFail()->delete();
+        echo json_encode(1);
+      } catch (\Throwable $th) {
+          echo json_encode(0);
       }
     }
 }

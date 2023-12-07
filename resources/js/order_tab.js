@@ -20,11 +20,16 @@ function OpenOrderTab(id) {
                 $("#input-table input").remove();
                 $("#emty-icon-order-container").attr("style", "display: none");
                 $("#emty-icon-order-container").find("img").attr("src", "https://assets-v2.lottiefiles.com/a/a4c7388c-1150-11ee-a0fa-4b9598be54ec/oceXQL7dcr.gif");
-                $.map(response[0].table_number.split(","), function (element) {
+                if(response[0].table_number.search("TA") != -1)
                     $("#input-table").prepend(`
-                        <input onchange="WriteTableNumber(this)" value="`+ element + `"/>
+                        <input onchange="WriteTableNumber(this)"/>
                     `);
-                });
+                else
+                    $.map(response[0].table_number.split(","), function (element) {
+                        $("#input-table").prepend(`
+                            <input onchange="WriteTableNumber(this)" value="`+ element + `"/>
+                        `);
+                    });
                 $.map(response, function (element) {
                     $("#product-in-order-modal").prepend(`
                         <div class="product-order" id="product-order-`+ element.id_product + `">
@@ -47,6 +52,7 @@ function OpenOrderTab(id) {
     }
     else {
         $("#modal-add-product-to-order .header-modal").find("p").text("Tạo hóa đơn");
+        $("#add-submit-btn").text("Hoàn tất");
         $("#product-in-order-modal .product-order").remove();
         $("#add-submit-btn").attr("onclick", "AddOrder()");
         $("#input-table input").remove();
@@ -176,8 +182,39 @@ function AddOrderElementOnTab(response) {
                 <textarea readonly class="order-note">`+ response.note + `</textarea>
             </div>
             <button class="btn">Thanh toán</button>
+            <i class="fa-solid fa-trash" onclick="RemoveOrder(this, `+ response.id + `)"></i>
+            <div class="load-icon-container">
+                <img src="https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif" alt="icon">
+            </div>
         </div>
     `;
+}
+
+function RemoveOrder(e, id) {
+    $(e).parents(".order").find(".load-icon-container").attr("style", "display: flex");
+    $.ajax({
+        type: "post",
+        url: "./removeOrder",
+        data: {id: id},
+        dataType: "json",
+        success: function (response) {
+            if(response == 1){
+                $(e).parents(".order").find(".load-icon-container img").attr("src", "https://i.pinimg.com/originals/e8/06/52/e80652af2c77e3a73858e16b2ffe5f9a.gif");
+                setTimeout(() => {
+                    $(e).parents(".order").remove();
+                    if($(".order").length == 0)
+                        $(".emty-icon-container").attr("style", "display: flex");
+                }, 1500);
+            }
+            else{
+                $(e).parents(".order").find(".load-icon-container img").attr("src", "https://i.redd.it/he0qua80qrn91.gif");
+                setTimeout(() => {
+                    $(e).parents(".order").find(".load-icon-container img").attr("src", "https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif");
+                    $(e).parents(".order").find(".load-icon-container").attr("style", "display: none");
+                }, 1500);
+            }
+        }
+    });
 }
 
 function UpdateOrder(id) {
@@ -254,6 +291,7 @@ function AddOrder() {
             data: { "products": dataProduct, "tables": dataTable, "note": $("#order-note-add").val() },
             dataType: "json",
             success: function (response) {
+                console.log(response);
                 if (response == 0) {
                     $("#load-add-order-modal").find("img").attr("src", "https://i.redd.it/he0qua80qrn91.gif");
                     setTimeout(() => {
@@ -300,3 +338,32 @@ function SearchProductAddOrder(e) {
     }
 }
 
+$("#keyword").keyup(function (event) {
+    if (event.keyCode === 13) {
+        SearchOrder();
+    }
+});
+
+function SearchOrder() {
+    $(".load-icon-container").attr("style", "display: flex");
+    $(".emty-icon-container").attr("style", "display: none");
+    $("#body-tab-order").find(".order").remove();
+    $.ajax({
+        type: "post",
+        url: "./searchOrder",
+        data: {keyword: $("#keyword").val()},
+        dataType: "json",
+        success: function (response) {
+            $(".load-icon-container").attr("style", "display: none");
+            if (response.length == 0) {
+                $(".emty-icon-container").attr("style", "display: flex");
+            }
+            else {
+                $("#body-tab-order").attr("style", "height: auto");
+                $.map(response, function (element) {
+                    $("#body-tab-order").prepend(AddOrderElementOnTab(element));
+                });
+            }
+        }
+    });
+}
