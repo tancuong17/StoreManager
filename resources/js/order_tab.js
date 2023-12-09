@@ -181,13 +181,26 @@ function AddOrderElementOnTab(response) {
                 <p class="order-text">Ghi chú:</p>
                 <textarea readonly class="order-note">`+ response.note + `</textarea>
             </div>
-            <button class="btn">Thanh toán</button>
+            <button class="btn" onclick="OpenPay(`+ response.id + `)">Thanh toán</button>
             <i class="fa-solid fa-trash" onclick="RemoveOrder(this, `+ response.id + `)"></i>
             <div class="load-icon-container">
                 <img src="https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif" alt="icon">
             </div>
         </div>
     `;
+}
+
+function Pay() {
+    window.print();
+    ClosePay();
+}
+
+function OpenPay(id) {
+    $("#tab-pay-order").attr("style", "display: flex");
+}
+
+function ClosePay() {
+    $("#tab-pay-order").attr("style", "display: none");
 }
 
 function RemoveOrder(e, id) {

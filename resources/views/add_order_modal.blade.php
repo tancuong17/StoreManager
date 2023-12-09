@@ -1,5 +1,5 @@
 <section id="modal-add-product-to-order">
-    <div class="background-modal" onclick="CloseModalAddProductToOrder()">alo</div>
+    <div class="background-modal" onclick="CloseModalAddProductToOrder()"></div>
     <div id="form-add-product-to-order">
       <div class="load-product-modal" id="load-add-order-modal">
         <img src="https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif" alt="product"/>

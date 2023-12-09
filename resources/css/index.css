@@ -945,6 +945,142 @@
     object-fit: cover;
 }
 
+#tab-pay-order{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+#section-to-print{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+#pay-order-info{
+    width: 30%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: white;
+    border-radius: 0.5rem;
+    gap: 0.5rem;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
+}
+
+#section-to-print-container{
+    overflow-y: auto;
+}
+
+#section-to-print-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+#section-to-print-container::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 0 0.5rem 0 0;
+}
+
+#section-to-print-container::-webkit-scrollbar-thumb {
+    background: lightgray; 
+    border-radius: 0 0.5rem 0 0;
+}
+
+#header-pay-order-info{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    margin: 0 0.5rem;
+    border-bottom: 1px dashed lightgray;
+}
+
+#header-pay-order-info p{
+    font-size: 0.8rem;
+}
+
+#header-pay-order-info span{
+    font-size: 0.6rem;
+}
+
+#header-pay-order-info div{
+    display: flex;
+    flex-direction: column;
+}
+
+#pay-order-button{
+    margin: 0 0.5rem 0.5rem;
+}
+
+#header-pay-order-info img{
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#body-pay-order-info{
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.8rem;
+    margin: 0 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed lightgray;
+}
+
+#header-table-pay-order{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    font-size: 0.8rem;
+    margin: 0 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed lightgray;
+}
+
+#body-table-pay-order{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0 0.5rem;
+    border-bottom: 1px dashed lightgray;
+    padding-bottom: 0.5rem;
+}
+
+.body-table-pay-order-item{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    font-size: 0.8rem;
+}
+
+.body-table-pay-order-quantity{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#footer-table-pay-order{
+    display: flex;
+    gap: 0.2rem;
+    margin: 0 0.5rem;
+    font-size: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed lightgray;
+}
+
+#text-table-pay-order{
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 0 0.5rem;
+}
+
 @media only screen and (max-width: 600px) {
 
     #menu-container{
@@ -1004,4 +1140,39 @@
         display: block;
     }
 
+  }
+
+  @media print {
+    body {
+      visibility: hidden;
+    }
+    @page
+    {
+        size: 2.5in 5.5in;
+    }
+    #section-to-print {
+      visibility: visible;
+      position: absolute;
+      left: 0.5rem;
+      top: 0.5rem;
+      right: 0.5rem;
+    }
+    #body-pay-order-info{
+        font-size: 0.6rem;
+    }
+    #header-pay-order-info{
+        padding: 0 0 0.5rem;
+    }
+    #header-table-pay-order{
+        font-size: 0.6rem;
+    }    
+    .body-table-pay-order-item{
+        font-size: 0.6rem;
+    }
+    #footer-table-pay-order{
+        font-size: 0.6rem;
+    }
+    #text-table-pay-order{
+        font-size: 0.6rem;
+    }
   }
