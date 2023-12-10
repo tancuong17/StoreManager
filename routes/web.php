@@ -36,7 +36,7 @@ Route::post('/addProduct', [ProductController::class, 'add']);
 
 Route::post('/updateProduct', [ProductController::class, 'update']);
 
-Route::get('/getProducts', [ProductController::class, 'gets']);
+Route::get('/getProducts/{page}', [ProductController::class, 'gets']);
 
 Route::post('/getProduct', [ProductController::class, 'get']);
 
@@ -48,7 +48,7 @@ Route::post('/addOrder', [OrderFormController::class, 'add']);
 
 Route::post('/updateOrder', [OrderFormController::class, 'update']);
 
-Route::get('/getOrders', [OrderFormController::class, 'gets']);
+Route::get('/getOrders/{status}/{page}', [OrderFormController::class, 'gets']);
 
 Route::post('/getOrder', [OrderFormController::class, 'get']);
 

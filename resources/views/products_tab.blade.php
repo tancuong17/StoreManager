@@ -20,4 +20,11 @@
         <img src="https://assets-v2.lottiefiles.com/a/a4c7388c-1150-11ee-a0fa-4b9598be54ec/oceXQL7dcr.gif" alt="icon">
       </div>
     </div>
+    <div class="footer-tab" id="footer-product-tab">
+      <p></p>
+      <div>
+        <p>Trang hiện tại:</p>
+        <input value="1" onchange="ChangePage(1, this)"/>
+      </div>
+    </div>
 </div>

@@ -23,7 +23,7 @@
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
 }
 
-#menu-container a{
+#menu-container a {
     text-decoration: none;
     color: black;
 }
@@ -76,7 +76,7 @@
     border-radius: 0.5rem;
 }
 
-.icon-container:hover{
+.icon-container:hover {
     cursor: pointer;
 }
 
@@ -140,12 +140,12 @@
 }
 
 #tabs::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 0 0.5rem 0.5rem 0;
 }
 
 #tabs::-webkit-scrollbar-thumb {
-    background: lightgray; 
+    background: lightgray;
     border-radius: 0 0.5rem 0.5rem 0;
 }
 
@@ -170,7 +170,7 @@
     gap: 1rem;
 }
 
-.box{
+.box {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -179,35 +179,35 @@
     border: 1px solid lightgray;
 }
 
-.box p:nth-child(1){
+.box p:nth-child(1) {
     font-size: 1.5rem;
 }
 
-.box img{
+.box img {
     width: 4rem;
     height: 4rem;
     object-fit: cover;
 }
 
-#header-chart{
+#header-chart {
     margin-top: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#header-chart select{
+#header-chart select {
     padding: 0.2rem 1rem;
 }
 
-.header-tab{
+.header-tab {
     display: flex;
     padding-right: 0.5rem;
     justify-content: space-between;
     align-items: center;
 }
 
-.search-container{
+.search-container {
     display: flex;
     align-items: center;
     height: 2rem;
@@ -217,17 +217,17 @@
     border: 1px solid lightgray;
 }
 
-.search-container input{
+.search-container input {
     border: none;
     outline: none;
 }
 
-.header-div{
+.header-div {
     display: flex;
     gap: 0.5rem
 }
 
-.btn{
+.btn {
     height: 2rem;
     padding: 0 1rem;
     background: black;
@@ -236,7 +236,7 @@
     border-radius: 0.5rem;
 }
 
-.body-tab{
+.body-tab {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
@@ -244,11 +244,13 @@
     margin-top: 0.5rem;
 }
 
-#tab-order{
+#tab-order {
     padding: 0.5rem 0 0.5rem 0.5rem;
 }
 
-#modal-add-product, #modal-detail-product, #modal-edit-product{
+#modal-add-product,
+#modal-detail-product,
+#modal-edit-product {
     width: 100vw;
     height: 100vh;
     display: none;
@@ -259,12 +261,14 @@
     z-index: 20;
 }
 
-.background-modal{
+.background-modal {
     background: black;
     opacity: 0.7;
 }
 
-#form-add-product, #form-detail-product, #form-edit-product{
+#form-add-product,
+#form-detail-product,
+#form-edit-product {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -274,7 +278,8 @@
     background: white;
 }
 
-.load-product-modal, .success-product-modal{
+.load-product-modal,
+.success-product-modal {
     width: 100%;
     height: 100%;
     display: none;
@@ -285,20 +290,21 @@
     left: 0;
 }
 
-.load-product-modal img, .success-product-modal img{
+.load-product-modal img,
+.success-product-modal img {
     width: 7rem;
     height: 7rem;
     object-fit: cover;
     border-radius: 50%;
 }
 
-.header-modal{
+.header-modal {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.body-modal{
+.body-modal {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -306,7 +312,7 @@
     align-items: center;
 }
 
-.product-input{
+.product-input {
     width: 100%;
     border: 1px solid lightgray;
     outline: none;
@@ -314,19 +320,21 @@
     border-radius: 0.5rem;
 }
 
-#image-add-upload, #image-detail-upload, #image-edit-upload{
+#image-add-upload,
+#image-detail-upload,
+#image-edit-upload {
     width: 15rem;
     height: 15rem;
     object-fit: cover;
 }
 
-.footer-modal{
+.footer-modal {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
 }
 
-.footer-modal button{
+.footer-modal button {
     width: 100%;
     height: 2rem;
     padding: 0 1rem;
@@ -336,11 +344,11 @@
     border-radius: 0.5rem;
 }
 
-.footer-modal p{
+.footer-modal p {
     font-size: 0.8rem;
 }
 
-.add-product-icon-container{
+.add-product-icon-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -349,7 +357,7 @@
     border-radius: 0.5rem;
 }
 
-.order-add-container{
+.order-add-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -358,14 +366,14 @@
     border-radius: 0.5rem;
 }
 
-.id-table-select{
+.id-table-select {
     font-size: 2rem;
     border: 1px solid lightgray;
     outline: none;
     border-radius: 0.5rem;
 }
 
-.select-id-table{
+.select-id-table {
     width: 15rem;
     display: flex;
     gap: 0.5rem;
@@ -378,16 +386,16 @@
 }
 
 .select-id-table::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 0.5rem;
 }
 
 .select-id-table::-webkit-scrollbar-thumb {
-    background: lightgray; 
+    background: lightgray;
     border-radius: 0.5rem;
 }
 
-.select-id-table div{
+.select-id-table div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -398,11 +406,11 @@
     border-radius: 0.5rem;
 }
 
-#tab-dashboard{
+#tab-dashboard {
     padding-right: 0.5rem;
 }
 
-#modal-add-product-to-order{
+#modal-add-product-to-order {
     width: 100vw;
     height: 100vh;
     display: none;
@@ -415,7 +423,7 @@
     overflow: hidden;
 }
 
-#form-add-product-to-order{
+#form-add-product-to-order {
     display: flex;
     flex-direction: column;
     width: calc(100vw - 35rem);
@@ -428,7 +436,7 @@
     border-radius: 0.5rem;
 }
 
-#modal-add-product-to-order .background-modal{
+#modal-add-product-to-order .background-modal {
     background: black;
     opacity: 0.7;
     position: absolute;
@@ -438,7 +446,7 @@
     height: 100vh;
 }
 
-#product-to-order-footer-modal{
+#product-to-order-footer-modal {
     position: relative;
     display: flex;
     height: calc(100vh - 11rem);
@@ -453,16 +461,16 @@
 }
 
 #product-to-order-footer-modal::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 0.5rem;
 }
 
 #product-to-order-footer-modal::-webkit-scrollbar-thumb {
-    background: lightgray; 
+    background: lightgray;
     border-radius: 0.5rem;
 }
 
-#search-container-product-to-order{
+#search-container-product-to-order {
     width: 100%;
     gap: 0.5rem;
     display: flex;
@@ -470,26 +478,27 @@
     justify-content: space-between;
 }
 
-#search-container-product-to-order input{
+#search-container-product-to-order input {
     width: 100%;
 }
 
-#form-add-product-to-order .header-modal, #form-add-product-to-order .body-modal{
+#form-add-product-to-order .header-modal,
+#form-add-product-to-order .body-modal {
     padding-right: 0.5rem;
 }
 
-.body-modal-add-product-to-order{
+.body-modal-add-product-to-order {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 
-#list-add-product-to-order{
+#list-add-product-to-order {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-#order-content{
+#order-content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -500,7 +509,7 @@
     border-radius: 0.5rem;
 }
 
-#info-order select{
+#info-order select {
     width: 100%;
     outline: none;
     border: 1px solid lightgray;
@@ -508,7 +517,7 @@
     padding: 0.3rem;
 }
 
-#product-in-order-modal{
+#product-in-order-modal {
     position: relative;
     height: calc(100vh - 22rem);
     display: flex;
@@ -523,33 +532,33 @@
 }
 
 #product-in-order-modal::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 0.5rem;
 }
 
 #product-in-order-modal::-webkit-scrollbar-thumb {
-    background: lightgray; 
+    background: lightgray;
     border-radius: 0.5rem;
 }
 
-#info-order{
+#info-order {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     padding-right: 0.5rem;
 }
 
-#number-table{
+#number-table {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-#number-table p{
+#number-table p {
     width: 4rem;
 }
 
-#number-table input{
+#number-table input {
     width: 2rem;
     height: 2rem;
     border: 1px solid lightgray;
@@ -559,12 +568,12 @@
     text-align: center;
 }
 
-#input-table{
+#input-table {
     display: flex;
     gap: 0.5rem;
 }
 
-#input-table img{
+#input-table img {
     width: 2rem;
     height: 2rem;
     padding: 0.5rem;
@@ -572,10 +581,10 @@
     border-radius: 0.5rem;
 }
 
-#body-tab-order{
+#body-tab-order {
     display: grid;
     height: auto;
-    max-height: calc(100vh - 9rem);
+    max-height: calc(100vh - 11rem);
     overflow: auto;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     padding-right: 0.5rem;
@@ -587,16 +596,16 @@
 }
 
 #body-tab-bill::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 0.5rem;
 }
 
 #body-tab-bill::-webkit-scrollbar-thumb {
-    background: lightgray; 
+    background: lightgray;
     border-radius: 0.5rem;
 }
 
-.bill{
+.bill {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -608,15 +617,16 @@
     border-radius: 0.5rem;
 }
 
-.table-number, .bill-number{
+.table-number,
+.bill-number {
     font-size: 2rem;
 }
 
-.order-text{
+.order-text {
     font-size: 0.8rem;
 }
 
-.product-order{
+.product-order {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -625,20 +635,20 @@
     border-radius: 0.5rem;
 }
 
-.product-image{
+.product-image {
     width: 3rem;
     height: 3rem;
     object-fit: cover;
     border-radius: 0.5rem;
 }
 
-.quantity-product-order-container{
+.quantity-product-order-container {
     display: flex;
     gap: 0.5rem;
     align-items: center;
 }
 
-.quantity-product-order-container input{
+.quantity-product-order-container input {
     width: 2rem;
     height: 2rem;
     outline: none;
@@ -647,25 +657,25 @@
     border: 1px solid lightgray;
 }
 
-.info-container{
+.info-container {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.total-money-order div{
+.total-money-order div {
     display: flex;
     align-items: center;
 }
 
-.total-money-order{
+.total-money-order {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-right: 0.5rem;
 }
 
-.order-note{
+.order-note {
     width: 100%;
     height: 5rem;
     resize: none;
@@ -680,16 +690,16 @@
 }
 
 .order-note::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 0.5rem;
 }
 
 .order-note::-webkit-scrollbar-thumb {
-    background: lightgray; 
+    background: lightgray;
     border-radius: 0.5rem;
 }
 
-#order-note-add{
+#order-note-add {
     width: 100%;
     height: 5rem;
     resize: none;
@@ -699,20 +709,20 @@
     padding: 0.5rem;
 }
 
-#add-submit-btn{
+#add-submit-btn {
     width: 100%;
 }
 
-.btn i{
+.btn i {
     display: none;
 }
 
-#left-header{
+#left-header {
     display: flex;
     align-items: center;
 }
 
-#close-menu{
+#close-menu {
     display: none;
     position: absolute;
     top: 45vh;
@@ -724,7 +734,7 @@
     font-size: 0.7rem;
 }
 
-.load-icon-container{
+.load-icon-container {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -735,14 +745,14 @@
     align-items: center;
 }
 
-.load-icon-container img{
+.load-icon-container img {
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
     object-fit: cover;
 }
 
-.emty-icon-container{
+.emty-icon-container {
     width: 100%;
     height: calc(100vh - 9rem);
     position: absolute;
@@ -753,18 +763,18 @@
     align-items: center;
 }
 
-.emty-icon-container img{
+.emty-icon-container img {
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
     object-fit: cover;
 }
 
-#body-tab-product{
+#body-tab-product {
     position: relative;
     display: grid;
-    height: calc(100vh - 9rem);
-    max-height: calc(100vh - 9rem);
+    height: auto;
+    max-height: calc(100vh - 11rem);
     overflow: auto;
     padding-right: 0.5rem;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -776,16 +786,16 @@
 }
 
 #body-tab-product::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 0.5rem;
 }
 
 #body-tab-product::-webkit-scrollbar-thumb {
-    background: lightgray; 
+    background: lightgray;
     border-radius: 0.5rem;
 }
 
-.product-container{
+.product-container {
     display: flex;
     justify-content: space-between;
     gap: 0.5rem;
@@ -794,20 +804,20 @@
     border: 1px solid lightgray;
 }
 
-.product{
+.product {
     width: 100%;
     display: flex;
     gap: 0.5rem;
     height: auto;
 }
 
-.product-function{
+.product-function {
     width: 4rem;
     height: 100%;
     display: flex;
 }
 
-.product-edit{
+.product-edit {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -817,7 +827,7 @@
     color: lightgray;
 }
 
-.product-remove{
+.product-remove {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -828,40 +838,40 @@
     border-radius: 0 0.5rem 0.5rem 0;
 }
 
-.product img{
+.product img {
     width: 5rem;
     height: 5rem;
     object-fit: cover;
     border-radius: 0.5rem 0 0 0.5rem;
 }
 
-.product div{
+.product div {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
     justify-content: center;
 }
 
-.product p{
+.product p {
     font-size: 0.8rem;
 }
 
-#image-upload-add-input{
+#image-upload-add-input {
     display: none;
 }
 
-#image-upload-detail-input{
+#image-upload-detail-input {
     display: none;
 }
 
-#image-upload-edit-input{
+#image-upload-edit-input {
     display: none;
 }
 
-#body-tab-bill{
+#body-tab-bill {
     display: grid;
     height: auto;
-    max-height: calc(100vh - 9rem);
+    max-height: calc(100vh - 11rem);
     overflow: auto;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     padding-right: 0.5rem;
@@ -873,16 +883,16 @@
 }
 
 #body-tab-order::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 0.5rem;
 }
 
 #body-tab-order::-webkit-scrollbar-thumb {
-    background: lightgray; 
+    background: lightgray;
     border-radius: 0.5rem;
 }
 
-.order{
+.order {
     position: relative;
     width: 100%;
     display: flex;
@@ -895,7 +905,7 @@
     border-radius: 0.5rem;
 }
 
-.order i{
+.order i {
     padding: 0.5rem;
     border: 1px solid black;
     background: black;
@@ -906,13 +916,14 @@
     right: 0;
 }
 
-.order .load-icon-container{
+.order .load-icon-container {
     display: none;
     background: white;
     border-radius: 0.5rem;
 }
 
-#notification-product, #notification-edit-product{
+#notification-product,
+#notification-edit-product {
     width: 100%;
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -922,12 +933,13 @@
     border: 1px dashed lightgray;
 }
 
-#notification-product img, #notification-edit-product img{
+#notification-product img,
+#notification-edit-product img {
     width: 1rem;
     height: 1rem;
 }
 
-#emty-icon-order-container{
+#emty-icon-order-container {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -938,14 +950,14 @@
     align-items: center;
 }
 
-#emty-icon-order-container img{
+#emty-icon-order-container img {
     width: 7rem;
     height: 7rem;
     border-radius: 50%;
     object-fit: cover;
 }
 
-#tab-pay-order{
+#tab-pay-order {
     position: absolute;
     top: 0;
     left: 0;
@@ -957,14 +969,14 @@
     z-index: 100;
 }
 
-#section-to-print{
+#section-to-print {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 0.5rem;
 }
 
-#pay-order-info{
+#pay-order-info {
     width: 30%;
     height: 95%;
     display: flex;
@@ -977,7 +989,7 @@
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
 }
 
-#section-to-print-container{
+#section-to-print-container {
     overflow-y: auto;
 }
 
@@ -986,16 +998,16 @@
 }
 
 #section-to-print-container::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
     border-radius: 0 0.5rem 0 0;
 }
 
 #section-to-print-container::-webkit-scrollbar-thumb {
-    background: lightgray; 
+    background: lightgray;
     border-radius: 0 0.5rem 0 0;
 }
 
-#header-pay-order-info{
+#header-pay-order-info {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -1004,31 +1016,31 @@
     border-bottom: 1px dashed lightgray;
 }
 
-#header-pay-order-info p{
+#header-pay-order-info p {
     font-size: 0.8rem;
 }
 
-#header-pay-order-info span{
+#header-pay-order-info span {
     font-size: 0.6rem;
 }
 
-#header-pay-order-info div{
+#header-pay-order-info div {
     display: flex;
     flex-direction: column;
 }
 
-#pay-order-button{
+#pay-order-button {
     margin: 0 0.5rem 0.5rem;
 }
 
-#header-pay-order-info img{
+#header-pay-order-info img {
     width: 3rem;
     height: 3rem;
     object-fit: cover;
     border-radius: 50%;
 }
 
-#body-pay-order-info{
+#body-pay-order-info {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
@@ -1038,7 +1050,7 @@
     border-bottom: 1px dashed lightgray;
 }
 
-#header-table-pay-order{
+#header-table-pay-order {
     display: grid;
     grid-template-columns: 3fr 1fr;
     font-size: 0.8rem;
@@ -1047,7 +1059,7 @@
     border-bottom: 1px dashed lightgray;
 }
 
-#body-table-pay-order{
+#body-table-pay-order {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -1056,19 +1068,19 @@
     padding-bottom: 0.5rem;
 }
 
-.body-table-pay-order-item{
+.body-table-pay-order-item {
     display: grid;
     grid-template-columns: 3fr 1fr;
     font-size: 0.8rem;
 }
 
-.body-table-pay-order-quantity{
+.body-table-pay-order-quantity {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#footer-table-pay-order{
+#footer-table-pay-order {
     display: flex;
     gap: 0.2rem;
     margin: 0 0.5rem;
@@ -1077,15 +1089,43 @@
     border-bottom: 1px dashed lightgray;
 }
 
-#text-table-pay-order{
+#text-table-pay-order {
     font-size: 0.9rem;
     text-align: center;
     margin: 0 0.5rem;
 }
 
+.footer-tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0.5rem;
+    background: white;
+    width: 100%;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
+}
+
+.footer-tab input{
+    width: 1.5rem;
+    height: 1.5rem;
+    outline: none;
+    border-radius: 0.5rem;
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+.footer-tab div{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 @media only screen and (max-width: 600px) {
 
-    #menu-container{
+    #menu-container {
         width: 6rem;
         display: none;
         position: fixed;
@@ -1093,28 +1133,28 @@
         left: 0;
     }
 
-    #close-menu{
+    #close-menu {
         display: block;
     }
 
-    #tab-container{
+    #tab-container {
         width: 100%;
         margin-left: 0;
     }
 
-    .btn i{
+    .btn i {
         display: block;
     }
 
-    .btn p{
+    .btn p {
         display: none;
     }
 
-    #form-add-product-to-order{
+    #form-add-product-to-order {
         width: 90%;
     }
 
-    .body-modal-add-product-to-order{
+    .body-modal-add-product-to-order {
         grid-template-columns: 1fr;
         gap: 0.5rem;
         overflow: auto;
@@ -1123,62 +1163,69 @@
     .body-modal-add-product-to-order::-webkit-scrollbar {
         width: 5px;
     }
-    
+
     .body-modal-add-product-to-order::-webkit-scrollbar-track {
-        background: #f1f1f1; 
+        background: #f1f1f1;
         border-radius: 0.5rem;
     }
-    
+
     .body-modal-add-product-to-order::-webkit-scrollbar-thumb {
-        background: lightgray; 
+        background: lightgray;
         border-radius: 0.5rem;
     }
 
     .gif {
         display: none;
     }
-    
+
     .bars {
         display: block;
     }
 
-    #pay-order-info{
+    #pay-order-info {
         width: 90%;
     }
 
-  }
+}
 
-  @media print {
+@media print {
     body {
-      visibility: hidden;
+        visibility: hidden;
     }
-    @page
-    {
+
+    @page {
         size: 2.5in 5.5in;
     }
+
     #section-to-print {
-      visibility: visible;
-      position: absolute;
-      left: 0.5rem;
-      top: 0.5rem;
-      right: 0.5rem;
+        visibility: visible;
+        position: absolute;
+        left: 0.5rem;
+        top: 0.5rem;
+        right: 0.5rem;
     }
-    #body-pay-order-info{
+
+    #body-pay-order-info {
         font-size: 0.6rem;
     }
-    #header-pay-order-info{
+
+    #header-pay-order-info {
         padding: 0 0 0.5rem;
     }
-    #header-table-pay-order{
-        font-size: 0.6rem;
-    }    
-    .body-table-pay-order-item{
+
+    #header-table-pay-order {
         font-size: 0.6rem;
     }
-    #footer-table-pay-order{
+
+    .body-table-pay-order-item {
         font-size: 0.6rem;
     }
-    #text-table-pay-order{
+
+    #footer-table-pay-order {
         font-size: 0.6rem;
     }
-  }
+
+    #text-table-pay-order {
+        font-size: 0.6rem;
+    }
+}

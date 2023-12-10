@@ -47,11 +47,12 @@ class OrderFormController extends Controller
             echo json_encode(0);
           }
     }
-    public function gets()
+    public function gets(Request $request)
     {
       try {
-        $orders = OrderForm::select('order_forms.id', 'order_forms.table_number', 'order_forms.note', 'order_forms.updated_at', 'users.name as updater')->join('users', 'order_forms.updater', '=', 'users.id')->where("status", 0)->get();
-        echo json_encode($orders);
+        $pageQuantity = ceil(OrderForm::where("status", $request->status)->count() / 10);
+        $orders = OrderForm::select('order_forms.id', 'order_forms.table_number', 'order_forms.note', 'order_forms.updated_at', 'users.name as updater')->join('users', 'order_forms.updater', '=', 'users.id')->where("status", $request->status)->offset((int)$request->page - 1)->limit(10)->get();
+        echo json_encode(array("quantity" => $pageQuantity, "data" => $orders));
       } catch (\Throwable $th) {
           echo json_encode(2);
       }

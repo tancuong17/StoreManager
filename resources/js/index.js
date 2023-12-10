@@ -48,29 +48,38 @@ new Chart(ctx, {
   }
 });
 
-OpenTab((localStorage.getItem("tab")) ? localStorage.getItem("tab") : 0);
+OpenTab((localStorage.getItem("tab")) ? localStorage.getItem("tab") : 0, (localStorage.getItem("page")) ? localStorage.getItem("page") : 1);
 
-function OpenTab(tab) {
+function OpenTab(tab, page = 1) {
   $(".icon-container").removeClass("icon-active");
   $(".icon-container").eq(tab).addClass("icon-active");
   $(".tab").removeClass("tab-active");
   $(".tab").eq(tab).addClass("tab-active");
   localStorage.setItem("tab", tab);
-  getData(tab);
+  getData(tab, page);
+  localStorage.setItem("page", page);
+  $(".tab").eq(tab).find(".footer-tab").eq(0).find("input").eq(0).val(page);
 }
 
-function getData(tab) {
+function ChangePage(tab, e) {
+  if($(e).val() > 0 && $(e).val() <= Number($(".tab").eq(tab).find(".footer-tab").eq(0).find("p").eq(0).text().replace("Số trang: ", "")))
+    OpenTab(tab, $(e).val());
+  else
+    $(e).val((localStorage.getItem("page") ? localStorage.getItem("page") : 1));
+}
+
+function getData(tab, page) {
   $(".load-icon-container").attr("style", "display: flex");
   $(".emty-icon-container").attr("style", "display: none");
   $("#body-tab-product").attr("style", "height: calc(100vh - 9rem)");
   let url = "";
   if (tab == 1) {
     $("#body-tab-product").find(".product-container").remove();
-    url = "./getProducts";
+    url = "./getProducts/" + page;
   }
   else if (tab == 2) {
     $("#body-tab-order").find(".order").remove();
-    url = "./getOrders";
+    url = "./getOrders/0/" + page;
   }
   $.ajax({
     type: "get",
@@ -84,9 +93,10 @@ function getData(tab) {
         }
         else {
           $("#body-tab-product").attr("style", "height: auto");
-          $.map(response, function (element) {
+          $.map(response.data, function (element) {
             $("#body-tab-product").prepend(AddProductElementOnTab(element));
           });
+          $("#footer-product-tab").find("p").eq(0).text("Tổng số trang: " + response.quantity);
         }
       }
       else if (tab == 2) {
@@ -96,9 +106,10 @@ function getData(tab) {
         }
         else {
           $("#body-tab-order").attr("style", "height: auto");
-          $.map(response, function (element) {
+          $.map(response.data, function (element) {
             $("#body-tab-order").prepend(AddOrderElementOnTab(element));
           });
+          $("#footer-order-tab").find("p").eq(0).text("Tổng số trang: " + response.quantity);
         }
       }
     }

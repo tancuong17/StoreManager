@@ -35,4 +35,5 @@
 <script src="{{ URL::asset('resources/js/index.js') }}"></script>
 <script src="{{ URL::asset('resources/js/product_tab.js') }}"></script>
 <script src="{{ URL::asset('resources/js/order_tab.js') }}"></script>
+<script src="{{ URL::asset('resources/js/bill_tab.js') }}"></script>
 </html>

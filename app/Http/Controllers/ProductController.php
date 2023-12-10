@@ -61,11 +61,12 @@ class ProductController extends Controller
             echo json_encode(2);
         }
     }
-    public function gets()
+    public function gets(Request $request)
     {
         try {
-            $products = Product::select('products.id', 'products.name', 'products.image', 'prices.price')->join('prices', 'prices.product', '=', 'products.id')->whereNull('prices.updater')->get();
-            echo json_encode($products);
+            $pageQuantity = ceil(Product::count() / 10);
+            $products = Product::select('products.id', 'products.name', 'products.image', 'prices.price')->join('prices', 'prices.product', '=', 'products.id')->whereNull('prices.updater')->offset((int)$request->page - 1)->limit(10)->get();
+            echo json_encode(array("quantity" => $pageQuantity, "data" => $products));
         } catch (\Throwable $th) {
             echo json_encode(2);
         }

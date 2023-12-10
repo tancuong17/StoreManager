@@ -17,4 +17,11 @@
         <textarea class="order-note"></textarea>
       </div>
     </div>
+    <div class="footer-tab">
+      <p>Số trang: 2</p>
+      <div>
+        <p>Trang hiện tại:</p>
+        <input value="1"/>
+      </div>
+    </div>
 </div>
