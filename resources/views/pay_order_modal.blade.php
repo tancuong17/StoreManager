@@ -1,4 +1,5 @@
 <div id="tab-pay-order">
+    <div onclick="ClosePay()" style="position: absolute; opacity: 0.7; width: 100vw; height: 100vh; top: 0; left: 0; background: black"></div>
     <div id="pay-order-info">
         <div id="section-to-print-container">
             <div id="section-to-print">
@@ -11,12 +12,12 @@
                     </div>
                 </div>
                 <div id="body-pay-order-info">
-                    <p>Mã đơn: DH0000001</p>
-                    <p>Số bàn: 2</p>
-                    <p>Ghi chú: không</p>
-                    <p>Giờ vào: 18:00:00 10/10/2023</p>
-                    <p>Giờ ra: 18:30:00 10/10/2023</p>
-                    <p>Nhân viên: Nguyễn Đặng Thị Thơ</p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
                 </div>
                 <div id="header-table-pay-order">
                     <p>Đồ uống/Đồ ăn</p>
@@ -25,58 +26,10 @@
                     </div>
                 </div>
                 <div id="body-table-pay-order">
-                    <div class="body-table-pay-order-item">
-                        <p>Trà sữa truyền thống<br>25.000đ</p>
-                        <div class="body-table-pay-order-quantity">
-                            <p>2</p>
-                        </div>
-                    </div>
-                    <div class="body-table-pay-order-item">
-                        <p>Trà sữa truyền thống<br>25.000đ</p>
-                        <div class="body-table-pay-order-quantity">
-                            <p>2</p>
-                        </div>
-                    </div>
-                    <div class="body-table-pay-order-item">
-                        <p>Trà sữa truyền thống<br>25.000đ</p>
-                        <div class="body-table-pay-order-quantity">
-                            <p>2</p>
-                        </div>
-                    </div>
-                    <div class="body-table-pay-order-item">
-                        <p>Trà sữa truyền thống<br>25.000đ</p>
-                        <div class="body-table-pay-order-quantity">
-                            <p>2</p>
-                        </div>
-                    </div>
-                    <div class="body-table-pay-order-item">
-                        <p>Trà sữa truyền thống<br>25.000đ</p>
-                        <div class="body-table-pay-order-quantity">
-                            <p>2</p>
-                        </div>
-                    </div>
-                    <div class="body-table-pay-order-item">
-                        <p>Trà sữa truyền thống<br>25.000đ</p>
-                        <div class="body-table-pay-order-quantity">
-                            <p>2</p>
-                        </div>
-                    </div>
-                    <div class="body-table-pay-order-item">
-                        <p>Trà sữa truyền thống<br>25.000đ</p>
-                        <div class="body-table-pay-order-quantity">
-                            <p>2</p>
-                        </div>
-                    </div>
-                    <div class="body-table-pay-order-item">
-                        <p>Trà sữa truyền thống<br>25.000đ</p>
-                        <div class="body-table-pay-order-quantity">
-                            <p>2</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="footer-table-pay-order">
                     <p>Tổng tiền: </p>
-                    <p>50.000đ</p>
+                    <p></p>
                 </div>
                 <div id="text-table-pay-order">
                     <p>Cảm ơn quý khách!</p>
@@ -85,7 +38,7 @@
         </div>
         <div id="pay-order-button">
             <button class="btn" onclick="ClosePay()">Đóng</button>
-            <button class="btn" onclick="Pay()">Thanh toán</button>
+            <button class="btn">Thanh toán</button>
         </div>
     </div>
 </div>

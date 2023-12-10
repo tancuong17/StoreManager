@@ -68,7 +68,7 @@ class OrderFormController extends Controller
     public function get(Request $request)
     {
       try {
-        $order = OrderForm::select('order_forms.table_number', 'order_forms.note', 'products.name', 'products.id as id_product', 'products.image', 'prices.price', 'detail_order_forms.quantity', 'detail_order_forms.id')->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.id", $request->id)->where("order_forms.status", 0)->whereNull('prices.updater')->get();
+        $order = OrderForm::select('order_forms.table_number', 'order_forms.code', 'order_forms.note', 'order_forms.created_at', 'products.name', 'products.id as id_product', 'products.image', 'prices.price', 'detail_order_forms.quantity', 'detail_order_forms.id', 'users.name as updater')->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.id", $request->id)->join('users', 'order_forms.updater', '=', 'users.id')->where("order_forms.status", 0)->whereNull('prices.updater')->get();
         echo json_encode($order);
       } catch (\Throwable $th) {
           echo json_encode(2);
@@ -79,6 +79,19 @@ class OrderFormController extends Controller
       try {
         DetailOrderForm::where("order_form", $request->id)->firstOrFail()->delete();
         OrderForm::where("id", $request->id)->firstOrFail()->delete();
+        echo json_encode(1);
+      } catch (\Throwable $th) {
+          echo json_encode(0);
+      }
+    }
+    public function pay(Request $request)
+    {
+      try {
+        $order = OrderForm::find($request->id);
+        $order->status = 1;
+        $order->updater = Auth::user()->id;
+        $order->updated_at = $request->time;
+        $order->save();
         echo json_encode(1);
       } catch (\Throwable $th) {
           echo json_encode(0);

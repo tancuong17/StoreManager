@@ -190,13 +190,53 @@ function AddOrderElementOnTab(response) {
     `;
 }
 
-function Pay() {
-    window.print();
-    ClosePay();
+function Pay(id, time) {
+    $.ajax({
+        type: "post",
+        url: "./payOrder",
+        data: {id: id, time: time},
+        dataType: "json",
+        success: function (response) {
+            if(response == 1){
+                window.print();
+                ClosePay();
+                $("#order-" + id).remove();
+            }
+        }
+    });
 }
 
 function OpenPay(id) {
     $("#tab-pay-order").attr("style", "display: flex");
+    $.ajax({
+        type: "post",
+        url: "./getOrder",
+        data: {id: id},
+        dataType: "json",
+        success: function (response) {
+            let totalMoney = 0;
+            $(".body-table-pay-order-item").remove();
+            $("#body-pay-order-info").find("p").eq(0).text("Mã đơn: " + response[0].code);
+            $("#body-pay-order-info").find("p").eq(1).text((response[0].table_number.search("TA") == -1) ? "Số bàn: " + response[0].table_number : "Loại đơn: Khách mang về");
+            $("#body-pay-order-info").find("p").eq(2).text("Ghi chú: " + response[0].note);
+            $("#body-pay-order-info").find("p").eq(3).text("Giờ vào: " + new Date(response[0].created_at).toLocaleString());
+            $("#body-pay-order-info").find("p").eq(4).text("Giờ ra: " + new Date().toLocaleString());
+            $("#body-pay-order-info").find("p").eq(5).text("Nhân viên: " + response[0].updater);
+            $("#pay-order-button").find("button").eq(1).attr("onclick", "Pay("+ id +", '"+ new Date().toLocaleString() +"')");
+            response.forEach((element, index) => {
+                totalMoney += element.price * element.quantity;
+                $("#body-table-pay-order").append(`
+                    <div class="body-table-pay-order-item">
+                        <p>`+ element.name +`<br>`+ new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(element.price) +`đ</p>
+                        <div class="body-table-pay-order-quantity">
+                            <p>`+ element.quantity +`</p>
+                        </div>
+                    </div>
+                `);
+                $("#footer-table-pay-order").find("p").eq(1).text(new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(totalMoney) + "đ");
+            });
+        }
+    });
 }
 
 function ClosePay() {

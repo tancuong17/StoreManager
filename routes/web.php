@@ -56,4 +56,6 @@ Route::post('/searchOrder', [OrderFormController::class, 'search']);
 
 Route::post('/removeOrder', [OrderFormController::class, 'delete']);
 
+Route::post('/payOrder', [OrderFormController::class, 'pay']);
+
 Route::post('/removeDetailOrder', [DetailOrderFormController::class, 'remove']);

@@ -954,6 +954,7 @@
     align-items: center;
     width: 100vw;
     height: 100vh;
+    z-index: 100;
 }
 
 #section-to-print{
@@ -972,6 +973,7 @@
     background: white;
     border-radius: 0.5rem;
     gap: 0.5rem;
+    z-index: 50;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -1138,6 +1140,10 @@
     
     .bars {
         display: block;
+    }
+
+    #pay-order-info{
+        width: 90%;
     }
 
   }
