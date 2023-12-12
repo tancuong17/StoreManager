@@ -63,7 +63,7 @@ function OpenTab(tab, page = 1) {
 
 function ChangePage(tab, e) {
   if($(e).val() > 0 && $(e).val() <= Number($(".tab").eq(tab).find(".footer-tab").eq(0).find("p").eq(0).text().replace("Số trang: ", "")))
-    OpenTab(tab, $(e).val());
+    getData(tab, $(e).val());
   else
     $(e).val((localStorage.getItem("page") ? localStorage.getItem("page") : 1));
 }
@@ -75,11 +75,24 @@ function getData(tab, page) {
   let url = "";
   if (tab == 1) {
     $("#body-tab-product").find(".product-container").remove();
-    url = "./getProducts/" + page;
+    if($("#keyword_product").val().length != 0)
+      url = "./searchProducts/" + page + "/" + $("#keyword_product").val();
+    else
+      url = "./getProducts/" + page + "/";
   }
   else if (tab == 2) {
     $("#body-tab-order").find(".order").remove();
-    url = "./getOrders/0/" + page;
+    if($("#keyword_order").val().length != 0)
+      url = "./searchOrders/0/" + page + "/" + $("#keyword_order").val();
+    else
+      url = "./getOrders/0/" + page;
+  }
+  else if (tab == 3) {
+    $("#body-tab-bill").find(".bill").remove();
+    if($("#keyword_bill").val().length != 0)
+      url = "./searchOrders/1/" + page + "/" + $("#keyword_bill").val();
+    else
+      url = "./getOrders/1/" + page;
   }
   $.ajax({
     type: "get",
@@ -88,7 +101,7 @@ function getData(tab, page) {
     success: function (response) {
       if (tab == 1) {
         $(".load-icon-container").attr("style", "display: none");
-        if (response.length == 0) {
+        if (response == 0) {
           $(".emty-icon-container").attr("style", "display: flex");
         }
         else {
@@ -101,7 +114,7 @@ function getData(tab, page) {
       }
       else if (tab == 2) {
         $(".load-icon-container").attr("style", "display: none");
-        if (response.length == 0) {
+        if (response == 0) {
           $(".emty-icon-container").attr("style", "display: flex");
         }
         else {
@@ -110,6 +123,19 @@ function getData(tab, page) {
             $("#body-tab-order").prepend(AddOrderElementOnTab(element));
           });
           $("#footer-order-tab").find("p").eq(0).text("Tổng số trang: " + response.quantity);
+        }
+      }
+      else if (tab == 3) {
+        $(".load-icon-container").attr("style", "display: none");
+        if (response == 0) {
+          $(".emty-icon-container").attr("style", "display: flex");
+        }
+        else {
+          $("#body-tab-bill").attr("style", "height: auto");
+          $.map(response.data, function (element) {
+            $("#body-tab-bill").prepend(AddBillElementOnTab(element));
+          });
+          $("#footer-order-bill").find("p").eq(0).text("Tổng số trang: " + response.quantity);
         }
       }
     }

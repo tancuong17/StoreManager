@@ -40,7 +40,7 @@ Route::get('/getProducts/{page}', [ProductController::class, 'gets']);
 
 Route::post('/getProduct', [ProductController::class, 'get']);
 
-Route::post('/searchProducts', [ProductController::class, 'search']);
+Route::get('/searchProducts/{page}/{keyword}', [ProductController::class, 'gets']);
 
 Route::post('/deleteProduct', [ProductController::class, 'delete']);
 
@@ -52,7 +52,7 @@ Route::get('/getOrders/{status}/{page}', [OrderFormController::class, 'gets']);
 
 Route::post('/getOrder', [OrderFormController::class, 'get']);
 
-Route::post('/searchOrder', [OrderFormController::class, 'search']);
+Route::get('/searchOrders/{status}/{page}/{keyword}', [OrderFormController::class, 'gets']);
 
 Route::post('/removeOrder', [OrderFormController::class, 'delete']);
 

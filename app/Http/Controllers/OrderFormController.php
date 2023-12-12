@@ -50,18 +50,18 @@ class OrderFormController extends Controller
     public function gets(Request $request)
     {
       try {
-        $pageQuantity = ceil(OrderForm::where("status", $request->status)->count() / 10);
-        $orders = OrderForm::select('order_forms.id', 'order_forms.table_number', 'order_forms.note', 'order_forms.updated_at', 'users.name as updater')->join('users', 'order_forms.updater', '=', 'users.id')->where("status", $request->status)->offset((int)$request->page - 1)->limit(10)->get();
-        echo json_encode(array("quantity" => $pageQuantity, "data" => $orders));
-      } catch (\Throwable $th) {
-          echo json_encode(2);
-      }
-    }
-    public function search(Request $request)
-    {
-      try {
-        $orders = OrderForm::select('order_forms.id', 'order_forms.table_number', 'order_forms.note', 'order_forms.updated_at', 'users.name as updater')->join('users', 'order_forms.updater', '=', 'users.id')->where("status", 0)->where("table_number", "like", "%$request->keyword%")->get();
-        echo json_encode($orders);
+        if($request->keyword){
+          $pageQuantity = ceil(OrderForm::where("status", $request->status)->where(($request->status == 0) ? "table_number" : "code", "like", "%$request->keyword%")->count() / 12);
+          $orders = OrderForm::select('order_forms.id', 'order_forms.code', 'order_forms.table_number', 'order_forms.note', 'order_forms.updated_at', 'users.name as updater')->join('users', 'order_forms.updater', '=', 'users.id')->where("status", $request->status)->where(($request->status == 0) ? "order_forms.table_number" : "order_forms.code", "like", "%$request->keyword%")->orderBy('order_forms.updated_at', 'ASC')->offset((int)$request->page - 1)->limit(12)->get();
+        }
+        else{
+          $pageQuantity = ceil(OrderForm::where("status", $request->status)->count() / 12);
+          $orders = OrderForm::select('order_forms.id', 'order_forms.code', 'order_forms.table_number', 'order_forms.note', 'order_forms.updated_at', 'users.name as updater')->join('users', 'order_forms.updater', '=', 'users.id')->where("status", $request->status)->orderBy('order_forms.updated_at', 'ASC')->offset((int)$request->page - 1)->limit(12)->get();
+        }
+        if(count($orders) != 0)
+          echo json_encode(array("quantity" => $pageQuantity, "data" => $orders));
+        else
+          echo json_encode(0);
       } catch (\Throwable $th) {
           echo json_encode(2);
       }
@@ -69,7 +69,7 @@ class OrderFormController extends Controller
     public function get(Request $request)
     {
       try {
-        $order = OrderForm::select('order_forms.table_number', 'order_forms.code', 'order_forms.note', 'order_forms.created_at', 'products.name', 'products.id as id_product', 'products.image', 'prices.price', 'detail_order_forms.quantity', 'detail_order_forms.id', 'users.name as updater')->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.id", $request->id)->join('users', 'order_forms.updater', '=', 'users.id')->where("order_forms.status", 0)->whereNull('prices.updater')->get();
+        $order = OrderForm::select('order_forms.table_number', 'order_forms.code', 'order_forms.note', 'order_forms.created_at', 'products.name', 'products.id as id_product', 'products.image', 'prices.price', 'detail_order_forms.quantity', 'detail_order_forms.id', 'users.name as updater')->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.id", $request->id)->join('users', 'order_forms.updater', '=', 'users.id')->where("order_forms.status", $request->status)->whereNull('prices.updater')->get();
         echo json_encode($order);
       } catch (\Throwable $th) {
           echo json_encode(2);

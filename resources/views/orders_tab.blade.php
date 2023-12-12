@@ -3,7 +3,7 @@
       <p>Đơn hàng</p>
       <div class="header-div">
         <div class="search-container">
-          <input placeholder="Bạn muốn tìm..." class="search-input" id="keyword"/>
+          <input placeholder="Bạn muốn tìm..." class="search-input" id="keyword_order"/>
           <img onclick="SearchOrder()" class="icon" src="https://cdn-icons-png.flaticon.com/128/2330/2330104.png" alt="icon">
         </div>
         <button class="btn" onclick="OpenOrderTab(null)">
@@ -24,7 +24,7 @@
       <p></p>
       <div>
         <p>Trang hiện tại:</p>
-        <input value="1"  onchange="ChangePage(2, this)"/>
+        <input value="1" onchange="ChangePage(2, this)"/>
       </div>
     </div>
 </div>

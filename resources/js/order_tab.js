@@ -13,7 +13,7 @@ function OpenOrderTab(id) {
         $.ajax({
             type: "post",
             url: "./getOrder",
-            data: { id: id },
+            data: { id: id, status: 0 },
             dataType: "json",
             success: function (response) {
                 $("#order-note-add").text(response[0].note);
@@ -64,11 +64,11 @@ function OpenOrderTab(id) {
     }
     $.ajax({
         type: "get",
-        url: "./getProducts",
+        url: "./getProducts/0",
         dataType: "json",
         success: function (response) {
             $("#load-product-in-order-modal").attr("style", "display: none");
-            $.map(response, function (element) {
+            $.map(response.data, function (element) {
                 $("#product-to-order-footer-modal").prepend(`
                     <div class="product-order">
                         <div class="info-container">
@@ -191,6 +191,8 @@ function AddOrderElementOnTab(response) {
 }
 
 function Pay(id, time) {
+    $("#load-section-to-print-container").attr("style", "display: flex");
+    $("#section-to-print").attr("style", "display: none");
     $.ajax({
         type: "post",
         url: "./payOrder",
@@ -198,9 +200,24 @@ function Pay(id, time) {
         dataType: "json",
         success: function (response) {
             if(response == 1){
-                window.print();
-                ClosePay();
-                $("#order-" + id).remove();
+                $("#load-section-to-print-container").find("img").attr("src", "https://i.pinimg.com/originals/e8/06/52/e80652af2c77e3a73858e16b2ffe5f9a.gif");
+                setTimeout(() => {
+                    $("#load-section-to-print-container").attr("style", "display: none");
+                    $("#section-to-print").attr("style", "display: flex");
+                    window.print();
+                    ClosePay();
+                    $("#order-" + id).remove();
+                    if($(".order").length == 0)
+                        $(".emty-icon-container").attr("style", "display: flex");
+                }, 1000);
+            }
+            else{
+                $("#load-section-to-print-container").find("img").attr("src", "https://i.redd.it/he0qua80qrn91.gif");
+                setTimeout(() => {
+                    $("#load-section-to-print-container").attr("style", "display: flex");
+                    $("#load-section-to-print-container").find("img").attr("src", "https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif");
+                    ClosePay();
+                }, 1500);
             }
         }
     });
@@ -208,33 +225,49 @@ function Pay(id, time) {
 
 function OpenPay(id) {
     $("#tab-pay-order").attr("style", "display: flex");
+    $("#load-section-to-print-container").attr("style", "display: flex");
+    $("#section-to-print").attr("style", "display: none");
+    $("#pay-order-button").attr("style", "display: none");
     $.ajax({
         type: "post",
         url: "./getOrder",
-        data: {id: id},
+        data: {id: id, status: 0},
         dataType: "json",
         success: function (response) {
-            let totalMoney = 0;
-            $(".body-table-pay-order-item").remove();
-            $("#body-pay-order-info").find("p").eq(0).text("Mã đơn: " + response[0].code);
-            $("#body-pay-order-info").find("p").eq(1).text((response[0].table_number.search("TA") == -1) ? "Số bàn: " + response[0].table_number : "Loại đơn: Khách mang về");
-            $("#body-pay-order-info").find("p").eq(2).text("Ghi chú: " + response[0].note);
-            $("#body-pay-order-info").find("p").eq(3).text("Giờ vào: " + new Date(response[0].created_at).toLocaleString());
-            $("#body-pay-order-info").find("p").eq(4).text("Giờ ra: " + new Date().toLocaleString());
-            $("#body-pay-order-info").find("p").eq(5).text("Nhân viên: " + response[0].updater);
-            $("#pay-order-button").find("button").eq(1).attr("onclick", "Pay("+ id +", '"+ new Date().toLocaleString() +"')");
-            response.forEach((element, index) => {
-                totalMoney += element.price * element.quantity;
-                $("#body-table-pay-order").append(`
-                    <div class="body-table-pay-order-item">
-                        <p>`+ element.name +`<br>`+ new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(element.price) +`đ</p>
-                        <div class="body-table-pay-order-quantity">
-                            <p>`+ element.quantity +`</p>
+            if(response != 2){
+                $("#load-section-to-print-container").attr("style", "display: none");
+                $("#section-to-print").attr("style", "display: flex");
+                $("#pay-order-button").attr("style", "display: flex");
+                let totalMoney = 0;
+                $(".body-table-pay-order-item").remove();
+                $("#body-pay-order-info").find("p").eq(0).text("Mã đơn: " + response[0].code);
+                $("#body-pay-order-info").find("p").eq(1).text((response[0].table_number.search("TA") == -1) ? "Số bàn: " + response[0].table_number : "Loại đơn: Khách mang về");
+                $("#body-pay-order-info").find("p").eq(2).text("Ghi chú: " + response[0].note);
+                $("#body-pay-order-info").find("p").eq(3).text("Giờ vào: " + new Date(response[0].created_at).toLocaleString());
+                $("#body-pay-order-info").find("p").eq(4).text("Giờ ra: " + new Date().toLocaleString());
+                $("#body-pay-order-info").find("p").eq(5).text("Nhân viên: " + response[0].updater);
+                $("#pay-order-button").find("button").eq(1).attr("onclick", "Pay("+ id +", '"+ new Date().toLocaleString() +"')");
+                response.forEach((element, index) => {
+                    totalMoney += element.price * element.quantity;
+                    $("#body-table-pay-order").append(`
+                        <div class="body-table-pay-order-item">
+                            <p>`+ element.name +`<br>`+ new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(element.price) +`đ</p>
+                            <div class="body-table-pay-order-quantity">
+                                <p>`+ element.quantity +`</p>
+                            </div>
                         </div>
-                    </div>
-                `);
-                $("#footer-table-pay-order").find("p").eq(1).text(new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(totalMoney) + "đ");
-            });
+                    `);
+                    $("#footer-table-pay-order").find("p").eq(1).text(new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(totalMoney) + "đ");
+                });
+            }
+            else{
+                $("#load-section-to-print-container").find("img").attr("src", "https://i.redd.it/he0qua80qrn91.gif");
+                setTimeout(() => {
+                    $("#load-section-to-print-container").attr("style", "display: none");
+                    $("#load-section-to-print-container").find("img").attr("src", "https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif");
+                    ClosePay();
+                }, 1500);
+            }
         }
     });
 }
@@ -344,7 +377,6 @@ function AddOrder() {
             data: { "products": dataProduct, "tables": dataTable, "note": $("#order-note-add").val() },
             dataType: "json",
             success: function (response) {
-                console.log(response);
                 if (response == 0) {
                     $("#load-add-order-modal").find("img").attr("src", "https://i.redd.it/he0qua80qrn91.gif");
                     setTimeout(() => {
@@ -391,32 +423,13 @@ function SearchProductAddOrder(e) {
     }
 }
 
-$("#keyword").keyup(function (event) {
+
+$("#keyword_order").keyup(function (event) {
     if (event.keyCode === 13) {
-        SearchOrder();
+        getData(localStorage.getItem("tab"), 1);
     }
 });
 
 function SearchOrder() {
-    $(".load-icon-container").attr("style", "display: flex");
-    $(".emty-icon-container").attr("style", "display: none");
-    $("#body-tab-order").find(".order").remove();
-    $.ajax({
-        type: "post",
-        url: "./searchOrder",
-        data: {keyword: $("#keyword").val()},
-        dataType: "json",
-        success: function (response) {
-            $(".load-icon-container").attr("style", "display: none");
-            if (response.length == 0) {
-                $(".emty-icon-container").attr("style", "display: flex");
-            }
-            else {
-                $("#body-tab-order").attr("style", "height: auto");
-                $.map(response, function (element) {
-                    $("#body-tab-order").prepend(AddOrderElementOnTab(element));
-                });
-            }
-        }
-    });
+    getData(localStorage.getItem("tab"), 1);
 }

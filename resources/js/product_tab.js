@@ -65,33 +65,12 @@ document.getElementById("image-upload-edit-input").onchange = evt => {
 
 $("#keyword_product").keyup(function (event) {
     if (event.keyCode === 13) {
-        SearchProduct();
+        getData(localStorage.getItem("tab"), 1);
     }
 });
 
 function SearchProduct() {
-    $("#body-tab-product").find(".product-container").remove();
-    $(".load-icon-container").attr("style", "display: flex");
-    $(".emty-icon-container").attr("style", "display: none");
-    $("#body-tab-product").attr("style", "height: calc(100vh - 9rem)");
-    $.ajax({
-        type: "post",
-        url: "./searchProducts",
-        data: { keyword: $("#keyword_product").val() },
-        dataType: "json",
-        success: function (response) {
-            $(".load-icon-container").attr("style", "display: none");
-            if (response.length == 0) {
-                $(".emty-icon-container").attr("style", "display: flex");
-            }
-            else {
-                $("#body-tab-product").attr("style", "height: auto");
-                $.map(response, function (element) {
-                    $("#body-tab-product").prepend(AddProductElementOnTab(element));
-                });
-            }
-        }
-    });
+    getData(localStorage.getItem("tab"), 1);
 }
 
 function OpenModalAddProduct() {

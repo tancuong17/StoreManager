@@ -584,7 +584,7 @@
 #body-tab-order {
     display: grid;
     height: auto;
-    max-height: calc(100vh - 11rem);
+    max-height: calc(100vh - 11.5rem);
     overflow: auto;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     padding-right: 0.5rem;
@@ -605,7 +605,13 @@
     border-radius: 0.5rem;
 }
 
-.bill {
+.bill:hover{
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer;
+}
+
+.bill div{
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -622,7 +628,7 @@
     font-size: 2rem;
 }
 
-.order-text {
+.order-text, .bill-text {
     font-size: 0.8rem;
 }
 
@@ -675,7 +681,7 @@
     padding-right: 0.5rem;
 }
 
-.order-note {
+.order-note, .bill-note {
     width: 100%;
     height: 5rem;
     resize: none;
@@ -685,16 +691,16 @@
     padding: 0.5rem;
 }
 
-.order-note::-webkit-scrollbar {
+.order-note::-webkit-scrollbar, .bill-note::-webkit-scrollbar{
     width: 5px;
 }
 
-.order-note::-webkit-scrollbar-track {
+.order-note::-webkit-scrollbar-track, .bill-note::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 0.5rem;
 }
 
-.order-note::-webkit-scrollbar-thumb {
+.order-note::-webkit-scrollbar-thumb, .bill-note::-webkit-scrollbar-thumb {
     background: lightgray;
     border-radius: 0.5rem;
 }
@@ -754,7 +760,7 @@
 
 .emty-icon-container {
     width: 100%;
-    height: calc(100vh - 9rem);
+    height: calc(100vh - 11rem);
     position: absolute;
     top: 3rem;
     left: 0;
@@ -771,13 +777,12 @@
 }
 
 #body-tab-product {
-    position: relative;
     display: grid;
     height: auto;
     max-height: calc(100vh - 11rem);
     overflow: auto;
-    padding-right: 0.5rem;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    padding-right: 0.5rem;
     gap: 0.5rem;
 }
 
@@ -871,7 +876,7 @@
 #body-tab-bill {
     display: grid;
     height: auto;
-    max-height: calc(100vh - 11rem);
+    max-height: calc(100vh - 11.5rem);
     overflow: auto;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     padding-right: 0.5rem;
@@ -903,6 +908,12 @@
     padding: 0.5rem;
     border: 1px solid lightgray;
     border-radius: 0.5rem;
+}
+
+.order:hover{
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer;
 }
 
 .order i {
@@ -957,7 +968,7 @@
     object-fit: cover;
 }
 
-#tab-pay-order {
+#tab-pay-order, #tab-bill-detail {
     position: absolute;
     top: 0;
     left: 0;
@@ -969,14 +980,15 @@
     z-index: 100;
 }
 
-#section-to-print {
+#section-to-print, #bill-section-to-print {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 0.5rem;
 }
 
-#pay-order-info {
+#pay-order-info, #bill-info{
+    position: relative;
     width: 30%;
     height: 95%;
     display: flex;
@@ -989,25 +1001,25 @@
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
 }
 
-#section-to-print-container {
+#section-to-print-container, #bill-section-to-print-container {
     overflow-y: auto;
 }
 
-#section-to-print-container::-webkit-scrollbar {
+#section-to-print-container::-webkit-scrollbar, #bill-section-to-print-container::-webkit-scrollbar {
     width: 5px;
 }
 
-#section-to-print-container::-webkit-scrollbar-track {
+#section-to-print-container::-webkit-scrollbar-track, #bill-section-to-print-container::-webkit-scrollbar-track{
     background: #f1f1f1;
     border-radius: 0 0.5rem 0 0;
 }
 
-#section-to-print-container::-webkit-scrollbar-thumb {
+#section-to-print-container::-webkit-scrollbar-thumb, #bill-section-to-print-container::-webkit-scrollbar-thumb {
     background: lightgray;
     border-radius: 0 0.5rem 0 0;
 }
 
-#header-pay-order-info {
+#header-pay-order-info, #bill-header-pay-info {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -1016,31 +1028,33 @@
     border-bottom: 1px dashed lightgray;
 }
 
-#header-pay-order-info p {
+#header-pay-order-info p, #bill-header-pay-info p {
     font-size: 0.8rem;
 }
 
-#header-pay-order-info span {
+#header-pay-order-info span, #bill-header-pay-info span {
     font-size: 0.6rem;
 }
 
-#header-pay-order-info div {
+#header-pay-order-info div, #bill-header-pay-info div {
     display: flex;
     flex-direction: column;
 }
 
-#pay-order-button {
+#pay-order-button, #bill-pay-button {
+    display: flex;
+    gap: 0.5rem;
     margin: 0 0.5rem 0.5rem;
 }
 
-#header-pay-order-info img {
+#header-pay-order-info img, #bill-header-pay-info img{
     width: 3rem;
     height: 3rem;
     object-fit: cover;
     border-radius: 50%;
 }
 
-#body-pay-order-info {
+#body-pay-order-info, #bill-body-pay-info {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
@@ -1050,7 +1064,7 @@
     border-bottom: 1px dashed lightgray;
 }
 
-#header-table-pay-order {
+#header-table-pay-order, #bill-header-table-pay {
     display: grid;
     grid-template-columns: 3fr 1fr;
     font-size: 0.8rem;
@@ -1059,7 +1073,7 @@
     border-bottom: 1px dashed lightgray;
 }
 
-#body-table-pay-order {
+#body-table-pay-order, #bill-body-table-pay {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -1068,19 +1082,19 @@
     padding-bottom: 0.5rem;
 }
 
-.body-table-pay-order-item {
+.body-table-pay-order-item, .body-table-pay-bill-item {
     display: grid;
     grid-template-columns: 3fr 1fr;
     font-size: 0.8rem;
 }
 
-.body-table-pay-order-quantity {
+.body-table-pay-order-quantity, .bill-body-table-pay-quantity {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#footer-table-pay-order {
+#footer-table-pay-order, #bill-footer-table-pay {
     display: flex;
     gap: 0.2rem;
     margin: 0 0.5rem;
@@ -1089,7 +1103,7 @@
     border-bottom: 1px dashed lightgray;
 }
 
-#text-table-pay-order {
+#text-table-pay-order, #bill-text-table-pay {
     font-size: 0.9rem;
     text-align: center;
     margin: 0 0.5rem;
@@ -1182,7 +1196,7 @@
         display: block;
     }
 
-    #pay-order-info {
+    #pay-order-info, #bill-info {
         width: 90%;
     }
 

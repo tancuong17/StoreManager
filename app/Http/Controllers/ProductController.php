@@ -64,9 +64,24 @@ class ProductController extends Controller
     public function gets(Request $request)
     {
         try {
-            $pageQuantity = ceil(Product::count() / 10);
-            $products = Product::select('products.id', 'products.name', 'products.image', 'prices.price')->join('prices', 'prices.product', '=', 'products.id')->whereNull('prices.updater')->offset((int)$request->page - 1)->limit(10)->get();
-            echo json_encode(array("quantity" => $pageQuantity, "data" => $products));
+            if($request->keyword){
+                $pageQuantity = ceil(Product::where('products.name', 'like', "%$request->keyword%")->count() / 12);
+                $products = Product::select('products.id', 'products.name', 'products.image', 'prices.price')->join('prices', 'prices.product', '=', 'products.id')->whereNull('prices.updater')->where('products.name', 'like', "%$request->keyword%")->orderBy('products.id', 'ASC')->offset((int)$request->page - 1)->limit(12)->get();
+            }
+            else{
+                if($request->page == 0){
+                    $pageQuantity = 0;
+                    $products = Product::select('products.id', 'products.name', 'products.image', 'prices.price')->join('prices', 'prices.product', '=', 'products.id')->whereNull('prices.updater')->orderBy('products.id', 'ASC')->get();
+                }
+                else{
+                    $pageQuantity = ceil(Product::count() / 12);
+                    $products = Product::select('products.id', 'products.name', 'products.image', 'prices.price')->join('prices', 'prices.product', '=', 'products.id')->whereNull('prices.updater')->orderBy('products.id', 'ASC')->offset((int)$request->page - 1)->limit(12)->get();
+                }   
+            }
+            if(count($products) != 0)
+                echo json_encode(array("quantity" => $pageQuantity, "data" => $products));
+            else
+                echo json_encode(0);
         } catch (\Throwable $th) {
             echo json_encode(2);
         }
@@ -78,16 +93,6 @@ class ProductController extends Controller
         try {
             $product = Product::select('products.id', 'products.name', 'products.image', 'products.updated_at', 'prices.price', 'users.name as creator')->join('prices', 'prices.product', '=', 'products.id')->join('users', 'products.updater', '=', 'users.id')->where('products.id', "=", (String)$request->id)->whereNull('prices.updater')->get();
             echo json_encode($product);
-        } catch (\Throwable $th) {
-            echo json_encode(2);
-        }
-    }
-
-    public function search(Request $request)
-    {
-        try {
-            $products = Product::select('products.id', 'products.name', 'products.image', 'prices.price')->join('prices', 'prices.product', '=', 'products.id')->where('products.name', 'like', "%$request->keyword%")->whereNull('prices.updater')->get();
-            echo json_encode($products);
         } catch (\Throwable $th) {
             echo json_encode(2);
         }
