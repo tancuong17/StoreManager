@@ -34,6 +34,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.js"></script>
 <script src="{{ URL::asset('resources/js/index.js') }}"></script>
+<script src="{{ URL::asset('resources/js/dashboard_tab.js') }}"></script>
 <script src="{{ URL::asset('resources/js/product_tab.js') }}"></script>
 <script src="{{ URL::asset('resources/js/order_tab.js') }}"></script>
 <script src="{{ URL::asset('resources/js/bill_tab.js') }}"></script>

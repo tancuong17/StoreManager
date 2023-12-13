@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\OrderForm;
 use App\Models\DetailOrderForm;
+use App\Models\Product;
 use App\Http\Controllers\DetailOrderFormController;
 
 use Illuminate\Support\Facades\Auth;
@@ -56,7 +57,7 @@ class OrderFormController extends Controller
         }
         else{
           $pageQuantity = ceil(OrderForm::where("status", $request->status)->count() / 12);
-          $orders = OrderForm::select('order_forms.id', 'order_forms.code', 'order_forms.table_number', 'order_forms.note', 'order_forms.updated_at', 'users.name as updater')->join('users', 'order_forms.updater', '=', 'users.id')->where("status", $request->status)->orderBy('order_forms.updated_at', 'ASC')->offset((int)$request->page - 1)->limit(12)->get();
+          $orders = OrderForm::select('order_forms.id', 'order_forms.code', 'order_forms.table_number', 'order_forms.note', 'order_forms.updated_at', 'users.name as updater')->join('users', 'order_forms.updater', '=', 'users.id')->where("status", $request->status)->orderBy('order_forms.updated_at', 'ASC')->offset(((int)$request->page - 1) * 12)->limit(12)->get();
         }
         if(count($orders) != 0)
           echo json_encode(array("quantity" => $pageQuantity, "data" => $orders));
@@ -91,9 +92,23 @@ class OrderFormController extends Controller
         $order = OrderForm::find($request->id);
         $order->status = 1;
         $order->updater = Auth::user()->id;
-        $order->updated_at = $request->time;
+        $date = date_create($request->time);
+        $order->updated_at = date_format($date,"Y-m-d H:i:s");
         $order->save();
         echo json_encode(1);
+      } catch (\Throwable $th) {
+          echo json_encode(0);
+      }
+    }
+    public function dashboard(Request $request)
+    {
+      try {
+        $now = date('Y-m-d');
+        $orderQuantity = OrderForm::where("status", 0)->whereDate("created_at", "=", $now)->count();
+        $billQuantity = OrderForm::where("status", 1)->whereDate("updated_at", "=", $now)->count();
+        $productQuantity = Product::count();
+        $revenue = OrderForm::select("detail_order_forms.id", "prices.price")->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.status", 1)->whereDate("order_forms.updated_at", "=", $now)->whereRaw('prices.created_at = prices.updated_at')->where("order_forms.status", 1)->orWhereDate("order_forms.updated_at", "=", $now)->whereRaw('prices.created_at <= order_forms.updated_at')->whereRaw('prices.updated_at >= order_forms.updated_at')->sum("prices.price", "*", "detail_order_forms.quantity");
+        echo json_encode(array("orderQuantity" => $orderQuantity, "billQuantity" => $billQuantity, "productQuantity" => $productQuantity, "revenue" => $revenue));
       } catch (\Throwable $th) {
           echo json_encode(0);
       }

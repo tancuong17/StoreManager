@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="footer-tab" id="footer-order-bill">
-      <p>...</p>
+      <p></p>
       <div>
         <p>Trang hiện tại:</p>
         <input value="1" onchange="ChangePage(3, this)"/>

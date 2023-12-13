@@ -1242,4 +1242,8 @@
     #text-table-pay-order {
         font-size: 0.6rem;
     }
+
+    #pay-order-info{
+        width: 100%;
+    }
 }

@@ -62,7 +62,7 @@ function OpenTab(tab, page = 1) {
 }
 
 function ChangePage(tab, e) {
-  if($(e).val() > 0 && $(e).val() <= Number($(".tab").eq(tab).find(".footer-tab").eq(0).find("p").eq(0).text().replace("Số trang: ", "")))
+  if($(e).val() > 0 && $(e).val() <= Number($(".tab").eq(tab).find(".footer-tab").eq(0).find("p").eq(0).text().replace("Tổng số trang: ", "")))
     getData(tab, $(e).val());
   else
     $(e).val((localStorage.getItem("page") ? localStorage.getItem("page") : 1));
@@ -93,6 +93,9 @@ function getData(tab, page) {
       url = "./searchOrders/1/" + page + "/" + $("#keyword_bill").val();
     else
       url = "./getOrders/1/" + page;
+  }
+  else if (tab == 0) {
+    url = "./dashboard";
   }
   $.ajax({
     type: "get",
@@ -137,6 +140,12 @@ function getData(tab, page) {
           });
           $("#footer-order-bill").find("p").eq(0).text("Tổng số trang: " + response.quantity);
         }
+      }
+      else if (tab == 0) {
+        $("#productQuantity").text(String(response.productQuantity).padStart(2, '0'));
+        $("#orderQuantity").text(String(response.orderQuantity).padStart(2, '0'));
+        $("#billQuantity").text(String(response.billQuantity).padStart(2, '0'));
+        $("#revenue").text((response.revenue / 1000 > 1) ? response.revenue / 1000 + "K" : response.revenue);
       }
     }
   });

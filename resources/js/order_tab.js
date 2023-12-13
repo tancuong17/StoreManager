@@ -193,6 +193,7 @@ function AddOrderElementOnTab(response) {
 function Pay(id, time) {
     $("#load-section-to-print-container").attr("style", "display: flex");
     $("#section-to-print").attr("style", "display: none");
+    $("#pay-order-button").attr("style", "display: none");
     $.ajax({
         type: "post",
         url: "./payOrder",
@@ -202,6 +203,7 @@ function Pay(id, time) {
             if(response == 1){
                 $("#load-section-to-print-container").find("img").attr("src", "https://i.pinimg.com/originals/e8/06/52/e80652af2c77e3a73858e16b2ffe5f9a.gif");
                 setTimeout(() => {
+                    $("#load-section-to-print-container").find("img").attr("src", "https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif");
                     $("#load-section-to-print-container").attr("style", "display: none");
                     $("#section-to-print").attr("style", "display: flex");
                     window.print();
@@ -240,13 +242,14 @@ function OpenPay(id) {
                 $("#pay-order-button").attr("style", "display: flex");
                 let totalMoney = 0;
                 $(".body-table-pay-order-item").remove();
+                $("#load-section-to-print-container").find("img").attr("src", "https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif");
                 $("#body-pay-order-info").find("p").eq(0).text("Mã đơn: " + response[0].code);
                 $("#body-pay-order-info").find("p").eq(1).text((response[0].table_number.search("TA") == -1) ? "Số bàn: " + response[0].table_number : "Loại đơn: Khách mang về");
                 $("#body-pay-order-info").find("p").eq(2).text("Ghi chú: " + response[0].note);
                 $("#body-pay-order-info").find("p").eq(3).text("Giờ vào: " + new Date(response[0].created_at).toLocaleString());
                 $("#body-pay-order-info").find("p").eq(4).text("Giờ ra: " + new Date().toLocaleString());
                 $("#body-pay-order-info").find("p").eq(5).text("Nhân viên: " + response[0].updater);
-                $("#pay-order-button").find("button").eq(1).attr("onclick", "Pay("+ id +", '"+ new Date().toLocaleString() +"')");
+                $("#pay-order-button").find("button").eq(1).attr("onclick", "Pay("+ id +", '"+ new Date(new Date().setHours(new Date().getHours() + 7)).toISOString() +"')");
                 response.forEach((element, index) => {
                     totalMoney += element.price * element.quantity;
                     $("#body-table-pay-order").append(`
@@ -287,6 +290,7 @@ function RemoveOrder(e, id) {
             if(response == 1){
                 $(e).parents(".order").find(".load-icon-container img").attr("src", "https://i.pinimg.com/originals/e8/06/52/e80652af2c77e3a73858e16b2ffe5f9a.gif");
                 setTimeout(() => {
+                    $(e).parents(".order").find(".load-icon-container img").attr("src", "https://cdn.dribbble.com/users/2882885/screenshots/7861928/media/a4c4da396c3da907e7ed9dd0b55e5031.gif");
                     $(e).parents(".order").remove();
                     if($(".order").length == 0)
                         $(".emty-icon-container").attr("style", "display: flex");
