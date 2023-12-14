@@ -9,6 +9,7 @@ use App\Http\Controllers\DetailOrderFormController;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use DB;
 
 class OrderFormController extends Controller
 {
@@ -104,11 +105,33 @@ class OrderFormController extends Controller
     {
       try {
         $now = date('Y-m-d');
+        $tableRevenue = OrderForm::selectRaw("Month(order_forms.updated_at) as month, SUM(prices.price * detail_order_forms.quantity) as money")->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.status", 1)->whereYear("order_forms.updated_at", "=", date("Y"))->whereRaw('prices.created_at = prices.updated_at')->where("order_forms.status", 1)->orWhereDate("order_forms.updated_at", "=", date("Y"))->whereRaw('prices.created_at <= order_forms.updated_at')->whereRaw('prices.updated_at >= order_forms.updated_at')->groupByRaw('Month(order_forms.updated_at)')->orderByRaw('Month(order_forms.updated_at)')->get();
         $orderQuantity = OrderForm::where("status", 0)->whereDate("created_at", "=", $now)->count();
         $billQuantity = OrderForm::where("status", 1)->whereDate("updated_at", "=", $now)->count();
-        $productQuantity = Product::count();
+        $productQuantity = OrderForm::select("detail_order_forms.id", "prices.price")->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.status", 1)->whereDate("order_forms.updated_at", "=", $now)->whereRaw('prices.created_at = prices.updated_at')->where("order_forms.status", 1)->orWhereDate("order_forms.updated_at", "=", $now)->whereRaw('prices.created_at <= order_forms.updated_at')->whereRaw('prices.updated_at >= order_forms.updated_at')->sum("detail_order_forms.quantity");
         $revenue = OrderForm::select("detail_order_forms.id", "prices.price")->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.status", 1)->whereDate("order_forms.updated_at", "=", $now)->whereRaw('prices.created_at = prices.updated_at')->where("order_forms.status", 1)->orWhereDate("order_forms.updated_at", "=", $now)->whereRaw('prices.created_at <= order_forms.updated_at')->whereRaw('prices.updated_at >= order_forms.updated_at')->sum("prices.price", "*", "detail_order_forms.quantity");
+        echo json_encode(array("tableRevenue" => $tableRevenue, "orderQuantity" => $orderQuantity, "billQuantity" => $billQuantity, "productQuantity" => $productQuantity, "revenue" => $revenue));
+      } catch (\Throwable $th) {
+          echo json_encode(0);
+      }
+    }
+    public function statistical(Request $request)
+    {
+      try {
+        $orderQuantity = OrderForm::where("status", 0)->whereDate("created_at", "=", $request->date)->count();
+        $billQuantity = OrderForm::where("status", 1)->whereDate("updated_at", "=", $request->date)->count();
+        $productQuantity = OrderForm::select("detail_order_forms.id", "prices.price")->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.status", 1)->whereDate("order_forms.updated_at", "=", $request->date)->whereRaw('prices.created_at = prices.updated_at')->where("order_forms.status", 1)->orWhereDate("order_forms.updated_at", "=", $request->date)->whereRaw('prices.created_at <= order_forms.updated_at')->whereRaw('prices.updated_at >= order_forms.updated_at')->sum("detail_order_forms.quantity");
+        $revenue = OrderForm::select("detail_order_forms.id", "prices.price")->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.status", 1)->whereDate("order_forms.updated_at", "=", $request->date)->whereRaw('prices.created_at = prices.updated_at')->where("order_forms.status", 1)->orWhereDate("order_forms.updated_at", "=", $request->date)->whereRaw('prices.created_at <= order_forms.updated_at')->whereRaw('prices.updated_at >= order_forms.updated_at')->sum("prices.price", "*", "detail_order_forms.quantity");
         echo json_encode(array("orderQuantity" => $orderQuantity, "billQuantity" => $billQuantity, "productQuantity" => $productQuantity, "revenue" => $revenue));
+      } catch (\Throwable $th) {
+          echo json_encode(0);
+      }
+    }
+    public function revenue(Request $request)
+    {
+      try {
+        $tableRevenue = OrderForm::selectRaw("Month(order_forms.updated_at) as month, SUM(prices.price * detail_order_forms.quantity) as money")->join('detail_order_forms', 'detail_order_forms.order_form', '=', 'order_forms.id')->join('products', 'products.id', '=', 'detail_order_forms.product')->join('prices', 'prices.product', '=', 'products.id')->where("order_forms.status", 1)->whereYear("order_forms.updated_at", "=", $request->year)->whereRaw('prices.created_at = prices.updated_at')->where("order_forms.status", 1)->orWhereDate("order_forms.updated_at", "=", $request->year)->whereRaw('prices.created_at <= order_forms.updated_at')->whereRaw('prices.updated_at >= order_forms.updated_at')->groupByRaw('Month(order_forms.updated_at)')->orderByRaw('Month(order_forms.updated_at)')->get();
+        echo json_encode($tableRevenue);
       } catch (\Throwable $th) {
           echo json_encode(0);
       }

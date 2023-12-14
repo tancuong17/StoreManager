@@ -27,23 +27,36 @@ $.ajax({
     }
   }
 });
+
 const ctx = document.getElementById('myChart');
-new Chart(ctx, {
+const chart = new Chart(ctx, {
   type: 'bar',
   responsive: true,
   data: {
     labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
     datasets: [{
       label: 'Doanh thu',
-      data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3],
+      data: new Array(12).fill(0),
       borderWidth: 1
     }]
   },
   options: {
     scales: {
       y: {
-        beginAtZero: true
+        ticks: { callback : function(value) { return (value < 1000000) ? value/1000 + 'K' : value/1000000 + 'M'; } }
       }
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (ctx) => `${ctx.dataset.label}: ${ctx.formattedValue}K`
+        }
+      },
+      datalabels: {
+        formatter: function(context) {
+          return context + "k";
+        }
+      },
     }
   }
 });
@@ -142,6 +155,12 @@ function getData(tab, page) {
         }
       }
       else if (tab == 0) {
+        let tableRevenue = new Array(12).fill(0);
+        $.map(response.tableRevenue, function (element) {
+            tableRevenue[Number(element.month) - 1] = element.money;
+        });
+        chart.data.datasets[0].data = tableRevenue;
+        chart.update();
         $("#productQuantity").text(String(response.productQuantity).padStart(2, '0'));
         $("#orderQuantity").text(String(response.orderQuantity).padStart(2, '0'));
         $("#billQuantity").text(String(response.billQuantity).padStart(2, '0'));

@@ -61,3 +61,7 @@ Route::post('/payOrder', [OrderFormController::class, 'pay']);
 Route::post('/removeDetailOrder', [DetailOrderFormController::class, 'remove']);
 
 Route::get('/dashboard', [OrderFormController::class, 'dashboard']);
+
+Route::post('/statistical', [OrderFormController::class, 'statistical']);
+
+Route::post('/revenue', [OrderFormController::class, 'revenue']);

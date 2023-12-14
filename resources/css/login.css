@@ -58,3 +58,9 @@
     height: 6rem;
     border-radius: 50%;
 }
+
+@media only screen and (max-width: 600px) {
+    #login-form{
+        width: 70%;
+    }
+}
