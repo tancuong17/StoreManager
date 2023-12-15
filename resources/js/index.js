@@ -43,7 +43,7 @@ const chart = new Chart(ctx, {
   options: {
     scales: {
       y: {
-        ticks: { callback : function(value) { return (value < 1000000) ? value/1000 + 'K' : value/1000000 + 'M'; } }
+        ticks: { callback: function (value) { return (value < 1000000) ? value / 1000 + 'K' : value / 1000000 + 'M'; } }
       }
     },
     plugins: {
@@ -53,7 +53,7 @@ const chart = new Chart(ctx, {
         }
       },
       datalabels: {
-        formatter: function(context) {
+        formatter: function (context) {
           return context + "k";
         }
       },
@@ -75,7 +75,7 @@ function OpenTab(tab, page = 1) {
 }
 
 function ChangePage(tab, e) {
-  if($(e).val() > 0 && $(e).val() <= Number($(".tab").eq(tab).find(".footer-tab").eq(0).find("p").eq(0).text().replace("Tổng số trang: ", "")))
+  if ($(e).val() > 0 && $(e).val() <= Number($(".tab").eq(tab).find(".footer-tab").eq(0).find("p").eq(0).text().replace("Tổng số trang: ", "")))
     getData(tab, $(e).val());
   else
     $(e).val((localStorage.getItem("page") ? localStorage.getItem("page") : 1));
@@ -88,21 +88,21 @@ function getData(tab, page) {
   let url = "";
   if (tab == 1) {
     $("#body-tab-product").find(".product-container").remove();
-    if($("#keyword_product").val().length != 0)
+    if ($("#keyword_product").val().length != 0)
       url = "./searchProducts/" + page + "/" + $("#keyword_product").val();
     else
       url = "./getProducts/" + page + "/";
   }
   else if (tab == 2) {
     $("#body-tab-order").find(".order").remove();
-    if($("#keyword_order").val().length != 0)
+    if ($("#keyword_order").val().length != 0)
       url = "./searchOrders/0/" + page + "/" + $("#keyword_order").val();
     else
       url = "./getOrders/0/" + page;
   }
   else if (tab == 3) {
     $("#body-tab-bill").find(".bill").remove();
-    if($("#keyword_bill").val().length != 0)
+    if ($("#keyword_bill").val().length != 0)
       url = "./searchOrders/1/" + page + "/" + $("#keyword_bill").val();
     else
       url = "./getOrders/1/" + page;
@@ -157,7 +157,7 @@ function getData(tab, page) {
       else if (tab == 0) {
         let tableRevenue = new Array(12).fill(0);
         $.map(response.tableRevenue, function (element) {
-            tableRevenue[Number(element.month) - 1] = element.money;
+          tableRevenue[Number(element.month) - 1] = element.money;
         });
         chart.data.datasets[0].data = tableRevenue;
         chart.update();
@@ -183,4 +183,74 @@ function Resize() {
     OpenMenu();
   else
     CloseMenu();
+}
+
+function MoneyText(money) {
+  let moneylength = money.length;
+  let number = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+  let moneyDivide = String(Math.pow(10, money.length - 1));
+  let typeCurrent = "";
+  let moneyValue = new Array();
+  for (let i = 0; i < moneylength; i++) {
+    let numberText = number[parseInt(Number(money) / Number(moneyDivide))];
+    if (Number(money) != 0) {
+      if (moneyDivide.length % 10 == 0) {
+        if (number[parseInt(Number(money) / Number(moneyDivide))] != "không") {
+          moneyValue.push(numberText)
+        }
+        moneyValue.push("tỷ");
+        typeCurrent = "tỷ";
+      }
+      else if (moneyDivide.length % 7 == 0) {
+        if (number[parseInt(Number(money) / Number(moneyDivide))] != "không") {
+          moneyValue.push(numberText)
+        }
+        moneyValue.push("triệu");
+        typeCurrent = "triệu";
+      }
+      else if (typeCurrent == "triệu" || moneyDivide.length % 3 == 0) {
+        moneyValue.push(numberText)
+        moneyValue.push("trăm");
+        typeCurrent = "trăm";
+      }
+      else if (moneyDivide.length / 4 == 1) {
+        if (number[parseInt(Number(money) / Number(moneyDivide))] == "năm" && moneylength != 4)
+          moneyValue.push("lăm");
+        else
+          moneyValue.push(numberText)
+        moneyValue.push("nghìn");
+      }
+      else if (typeCurrent = "trăm" && moneyDivide.length != 1) {
+        if (number[parseInt(Number(money) / Number(moneyDivide))] == "không") {
+          moneyValue.push("lẻ");
+        }
+        else if (number[parseInt(Number(money) / Number(moneyDivide))] == "một") {
+          moneyValue.push("mười");
+        }
+        else {
+          moneyValue.push(numberText);
+          moneyValue.push("mươi");
+        }
+        typeCurrent == "mươi";
+      }
+      else if (typeCurrent = "mươi") {
+        if (number[parseInt(Number(money) / Number(moneyDivide))] == "năm")
+          moneyValue.push("lăm");
+        else
+          moneyValue.push(numberText);
+      }
+      money = money.slice(1, money.length);
+      moneyDivide = moneyDivide.slice(0, moneyDivide.length - 1);
+    }
+    else
+      break;
+  }
+  let moneyText = moneyValue.join(" ");
+  if(moneyDivide % 1000000000 == 0)
+    moneyText += " tỷ";
+  else if(moneyDivide % 100000 == 0 && moneyText.search("triệu") == -1)
+    moneyText += " triệu";
+  else if(moneyDivide % 1000 == 0 && moneyText.search("triệu") == -1 &&  moneyText.search("nghìn") == -1)
+    moneyText += " nghìn";
+  return moneyText.charAt(0).toUpperCase() + moneyText.slice(1) + " đồng.";
 }

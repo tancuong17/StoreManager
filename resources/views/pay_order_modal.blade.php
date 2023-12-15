@@ -34,6 +34,10 @@
                     <p>Tổng tiền: </p>
                     <p></p>
                 </div>
+                <div id="footer-table-pay-order-text">
+                    <p>Bằng chữ: </p>
+                    <p></p>
+                </div>
                 <div id="text-table-pay-order">
                     <p>Cảm ơn quý khách!</p>
                 </div>

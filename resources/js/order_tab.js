@@ -261,6 +261,7 @@ function OpenPay(id) {
                         </div>
                     `);
                     $("#footer-table-pay-order").find("p").eq(1).text(new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(totalMoney) + "đ");
+                    $("#footer-table-pay-order-text").find("p").eq(1).text(MoneyText(String(totalMoney)));
                 });
             }
             else{

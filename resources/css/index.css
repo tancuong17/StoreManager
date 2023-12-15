@@ -1123,7 +1123,7 @@ input[type=number] {
     align-items: center;
 }
 
-#footer-table-pay-order, #bill-footer-table-pay {
+#footer-table-pay-order, #bill-footer-table-pay, #bill-footer-table-pay-text, #footer-table-pay-order-text {
     display: flex;
     gap: 0.2rem;
     margin: 0 0.5rem;
@@ -1165,6 +1165,8 @@ input[type=number] {
     align-items: center;
     gap: 0.5rem;
 }
+
+
 
 @media only screen and (max-width: 600px) {
 
@@ -1229,6 +1231,11 @@ input[type=number] {
         width: 90%;
     }
 
+    #header-box-dashboard{
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: start;
+    }
 }
 
 @media print {

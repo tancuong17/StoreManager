@@ -1,5 +1,5 @@
 function ChangeStatisticalDate(e) {
-    if($(e).val() != ""){
+    if($(e).val() != "" && new Date($("#dateStatisticalForm").val()) <= new Date($("#dateStatisticalTo").val())){
         $("#productQuantity").text("...");
         $("#orderQuantity").text("...");
         $("#billQuantity").text("...");
@@ -7,7 +7,7 @@ function ChangeStatisticalDate(e) {
         $.ajax({
             type: "post",
             url: "./statistical",
-            data: {date: $(e).val()},
+            data: {dateFrom: $("#dateStatisticalForm").val(), dateTo: $("#dateStatisticalTo").val()},
             dataType: "json",
             success: function (response) {
                 $("#productQuantity").text(String(response.productQuantity).padStart(2, '0'));
@@ -19,11 +19,13 @@ function ChangeStatisticalDate(e) {
     }
     else{
         let now = new Date().toLocaleDateString().split("/");
-        $(e).val(now[2] + "-" + now[1] + "-" + now[0]);
+        $("#dateStatisticalForm").val(now[2] + "-" + now[1] + "-" + now[0]);
+        $("#dateStatisticalTo").val(now[2] + "-" + now[1] + "-" + now[0]);
     }
 }
+
 function ChangeRevenueDate(e) {
-    if($(e).val() != ""){
+    if($(e).val() != "" && $(e).val().length == 4){
         $.ajax({
             type: "post",
             url: "./revenue",

@@ -55,8 +55,9 @@ function OpenDetailBill(id) {
                             </div>
                         </div>
                     `);
-                    $("#bill-footer-table-pay").find("p").eq(1).text(new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(totalMoney) + "đ");
                 });
+                $("#bill-footer-table-pay").find("p").eq(1).text(new Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(totalMoney) + "đ");
+                $("#bill-footer-table-pay-text").find("p").eq(1).text(MoneyText(String(totalMoney)));
             }
             else{
                 $("#bill-load-section-to-print-container").find("img").attr("src", "https://i.redd.it/he0qua80qrn91.gif");

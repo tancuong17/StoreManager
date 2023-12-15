@@ -1,7 +1,11 @@
 <div class="tab tab-active" id="tab-dashboard">
     <div id="header-box-dashboard">
       <p>#Thống kê cửa hàng</p>
-      <input type="date" value="<?php echo date("Y-m-d"); ?>" max="<?php echo date("Y-m-d"); ?>" onblur="ChangeStatisticalDate(this)"/>
+      <div>
+        <input id="dateStatisticalForm" type="date" value="<?php echo date("Y-m-d"); ?>" max="<?php echo date("Y-m-d"); ?>" onblur="ChangeStatisticalDate(this)"/>
+        <span>-</span>
+        <input id="dateStatisticalTo" type="date" value="<?php echo date("Y-m-d"); ?>" max="<?php echo date("Y-m-d"); ?>" onblur="ChangeStatisticalDate(this)"/>
+      </div>
     </div>
     <div id="box-conatainer">
       <div class="box">
